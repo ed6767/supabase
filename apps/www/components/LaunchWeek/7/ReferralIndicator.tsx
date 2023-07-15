@@ -1,6 +1,6 @@
 import React from 'react'
-import useConfData from '~/components/LaunchWeek/7/Ticket/hooks/use-conf-data'
-import useWinningChances from './Ticket/hooks/useWinningChances'
+import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
+import useWinningChances from '../hooks/useWinningChances'
 
 export default function ReferralIndicator() {
   const winningChances = useWinningChances()

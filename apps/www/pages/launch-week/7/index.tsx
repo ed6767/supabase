@@ -10,7 +10,7 @@ import { SITE_ORIGIN, SITE_URL } from '~/lib/constants'
 import DefaultLayout from '~/components/Layouts/Default'
 import SectionContainer from '~/components/Layouts/SectionContainer'
 import { LaunchWeekLogoHeader } from '~/components/LaunchWeek/7/LaunchSection/LaunchWeekLogoHeader'
-import { UserData } from '~/components/LaunchWeek/7/Ticket/hooks/use-conf-data'
+import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import LW7BgGraphic from '~/components/LaunchWeek/7/LW7BgGraphic'
 import { useTheme } from 'common/Providers'
 

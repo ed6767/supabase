@@ -1,14 +1,14 @@
 import cn from 'classnames'
 import { useRef, useState } from 'react'
 import styles from './ticket.module.css'
-import styleUtils from './utils.module.css'
+import styleUtils from '../../utils.module.css'
 import TicketVisual from './TicketVisual'
 import TicketActions from './TicketActions'
 import TicketCopy from './ticket-copy'
 
-import { UserData } from './hooks/use-conf-data'
+import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import ReferralIndicator from '../ReferralIndicator'
-import useWinningChances from './hooks/useWinningChances'
+import useWinningChances from '../../hooks/useWinningChances'
 import { SITE_URL } from '~/lib/constants'
 import { useBreakpoint } from 'common/hooks/useBreakpoint'
 

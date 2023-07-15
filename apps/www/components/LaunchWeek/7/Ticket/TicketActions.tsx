@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { SITE_URL, TWEET_TEXT, TWEET_TEXT_GOLDEN } from '~/lib/constants'
 import { IconCheckCircle } from 'ui'
-import useConfData from '~/components/LaunchWeek/7/Ticket/hooks/use-conf-data'
+import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
 import { useParams } from '~/hooks/useParams'
 import TicketForm from './TicketForm'
 

@@ -16,7 +16,7 @@ export type UserData = {
 }
 
 type ConfDataContextType = {
-  supabase: SupabaseClient
+  supabase: SupabaseClient | any
   session: Session | null
   userData: UserData
   setUserData: React.Dispatch<React.SetStateAction<UserData>>

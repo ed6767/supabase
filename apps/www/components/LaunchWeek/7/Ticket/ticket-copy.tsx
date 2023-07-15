@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import cn from 'classnames'
 import { SITE_URL } from '~/lib/constants'
-import styleUtils from './utils.module.css'
+import styleUtils from '../../utils.module.css'
 import { IconCopy, IconCheck } from 'ui'
 
 type Props = {

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from 'ui'
 import { useBreakpoint } from 'common/hooks/useBreakpoint'
-import { UserData } from '../Ticket/hooks/use-conf-data'
+import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import { TicketBrickWallSlider } from './TicketBrickWallSlider'
 
 type user = UserData

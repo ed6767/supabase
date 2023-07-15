@@ -1,7 +1,7 @@
 import styles from './ticket-visual.module.css'
 import TicketProfile from './TicketProfile'
 import TicketNumber from './TicketNumber'
-import Tilt from 'vanilla-tilt'
+// import Tilt from 'vanilla-tilt'
 import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
 import TicketHeader from './TicketHeader'
 import { useEffect, useRef, useState } from 'react'
@@ -31,7 +31,7 @@ export default function TicketVisual({
 }: Props) {
   const { session } = useConfData()
   const [imageIsLoading, setImageIsLoading] = useState(true)
-  const ticketRef = useRef<HTMLDivElement>(null)
+  // const ticketRef = useRef<HTMLDivElement>(null)
   const storageBaseFilepath = `https://obuldanrptloktxcffvn.supabase.co/storage/v1/object/public/images/lw7/tickets_bg`
 
   const ticketBg = {
@@ -45,46 +45,42 @@ export default function TicketVisual({
     },
   }
 
-  useEffect(() => {
-    if (ticketRef.current && !window.matchMedia('(pointer: coarse)').matches) {
-      Tilt.init(ticketRef.current, {
-        glare: !golden,
-        max: 4,
-        gyroscope: true,
-        'max-glare': 0.3,
-        'full-page-listening': true,
-      })
-    }
-  }, [ticketRef])
+  // useEffect(() => {
+  //   if (ticketRef.current && !window.matchMedia('(pointer: coarse)').matches) {
+  //     Tilt.init(ticketRef.current, {
+  //       glare: !golden,
+  //       max: 4,
+  //       gyroscope: true,
+  //       'max-glare': 0.3,
+  //       'full-page-listening': true,
+  //     })
+  //   }
+  // }, [ticketRef])
 
   return (
     <div
-      className="flex relative flex-col w-[300px] md:w-full md:max-w-none h-auto"
-      style={{
-        transform: 'translate3d(0, 0, 100px)',
-        transformStyle: 'preserve-3d',
-      }}
+      className="flex relative flex-col w-[300px] h-auto md:w-full md:max-w-none backdrop-blur-md"
+      // style={{
+      //   transform: 'translate3d(0, 0, 100px)',
+      //   transformStyle: 'preserve-3d',
+      // }}
     >
       <div
-        ref={ticketRef}
+        // ref={ticketRef}
         className={[
           styles.visual,
           golden ? styles['visual--gold'] : '',
-          session ? styles['visual--logged-in'] : '',
+          // session ? styles['visual--logged-in'] : '',
           !golden && 'overflow-hidden',
-          'flex relative flex-col justify-between w-full pt-[150%] md:pt-[50%] bg-gradient-to-b from-[#ffffff80] to-[#ffffff20] before:rounded-2xl h-0 box-border',
+          'flex relative flex-col justify-between w-full aspect-[1.935/1] bg-gradient-to-b from-[#ffffff80] to-[#ffffff20] before:rounded-2xl box-border backdrop-blur-md rounded-xl',
         ].join(' ')}
         style={{
           ['--size' as string]: size,
         }}
-        id="wayfinding--ticket-visual-inner-container"
       >
         <div className="absolute inset-0 h-[calc(100%-100px)] z-10 flex flex-col items-center justify-between w-full md:h-full flex-1 md:pl-[6%] md:pr-[15%] overflow-hidden">
-          {username && <TicketHeader />}
-          <div
-            className="flex-1 w-full h-full md:h-auto flex py-6 md:py-4 flex-col justify-center"
-            id="wayfinding--TicketProfile-container"
-          >
+          {/* {username && <TicketHeader />} */}
+          <div className="flex-1 w-full h-full md:h-auto flex py-6 md:py-4 flex-col justify-center">
             <TicketProfile
               name={name}
               username={username}
@@ -95,12 +91,9 @@ export default function TicketVisual({
             />
           </div>
         </div>
-        <TicketNumber number={ticketNumber} />
-        <div
-          id="wayfinding--ticket-dynamic-bg-image"
-          className="absolute inset-[1px] z-0 rounded-2xl overflow-hidden"
-        >
-          {username && (
+        {/* <TicketNumber number={ticketNumber} /> */}
+        <div className="absolute inset-[1px] z-0 rounded-2xl overflow-hidden">
+          {/* {username && (
             <Image
               src={golden ? ticketBg.gold.overlay : ticketBg.regular.overlay}
               layout="fill"
@@ -122,7 +115,7 @@ export default function TicketVisual({
               imageIsLoading ? 'grayscale blur-xl scale-110' : 'scale-100 grayscale-0 blur-0',
             ].join(' ')}
             onLoadingComplete={() => setImageIsLoading(false)}
-          />
+          /> */}
         </div>
       </div>
     </div>

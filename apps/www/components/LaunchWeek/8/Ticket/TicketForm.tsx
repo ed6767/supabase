@@ -28,23 +28,24 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
   const router = useRouter()
 
   useEffect(() => {
-    if (session?.user && !userData.id) {
+    if (supabase && session?.user && !userData.id) {
       document.body.classList.add('ticket-generated')
       const username = session.user.user_metadata.user_name
       setUsername(username)
       const name = session.user.user_metadata.full_name
       const email = session.user.email
       supabase
-        .from('lw7_tickets')
+        .from('lw8_tickets_staging')
         .insert({ email, name, username, referred_by: router.query?.referral ?? null })
         .eq('email', email)
         .select()
         .single()
-        .then(async ({ error }) => {
+        .then(async ({ error }: any) => {
           // If error because of duplicate email, ignore and proceed, otherwise sign out.
           if (error && error?.code !== '23505') return supabase.auth.signOut()
           const { data } = await supabase
-            .from('lw7_tickets_golden')
+            .from('lw8_tickets_staging')
+            // .from('lw8_tickets_golden')
             .select('*')
             .eq('username', username)
             .single()
@@ -59,11 +60,11 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
           // Prefetch the twitter share URL to eagerly generate the page
           fetch(`/launch-week/tickets/${username}`).catch((_) => {})
           // Prefetch ticket og image.
-          fetch(
-            `https://obuldanrptloktxcffvn.functions.supabase.co/lw7-ticket-og?username=${encodeURIComponent(
-              username ?? ''
-            )}`
-          ).catch((_) => {})
+          // fetc h(
+          //   `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket?username=${encodeURIComponent(
+          //     username ?? ''
+          //   )}`
+          // ).catch((_) => {})
 
           setPageState('ticket')
 
@@ -76,10 +77,10 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
                 {
                   event: 'UPDATE',
                   schema: 'public',
-                  table: 'lw7_tickets',
+                  table: 'lw8_tickets_staging',
                   filter: `username=eq.${username}`,
                 },
-                (payload) => {
+                (payload: any) => {
                   const golden = !!payload.new.sharedOnTwitter && !!payload.new.sharedOnLinkedIn
                   setUserData({
                     ...payload.new,
@@ -144,7 +145,6 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
         })
       }}
       className="flex flex-col items-center xl:block relative z-20"
-      id="wayfinding--connect-with-github-form"
     >
       <div className="flex flex-col gap-3">
         <div>

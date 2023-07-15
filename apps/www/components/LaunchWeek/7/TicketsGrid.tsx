@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useBreakpoint } from 'common/hooks/useBreakpoint'
-import { UserData } from './Ticket/hooks/use-conf-data'
+import { UserData } from '../hooks/use-conf-data'
 
 interface Props {
   loadedUsers: UserData[]

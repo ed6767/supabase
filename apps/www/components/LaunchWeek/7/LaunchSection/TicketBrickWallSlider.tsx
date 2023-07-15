@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { UserData } from '../Ticket/hooks/use-conf-data'
+import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import { useWindowSize } from 'react-use'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
