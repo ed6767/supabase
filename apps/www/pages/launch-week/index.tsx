@@ -165,11 +165,11 @@ export default function TicketHome({ users }: Props) {
                 </div>
               )}
               {/* <LW7Releases /> */}
-              {/* <LaunchWeekPrizeSection className="pt-10" ticket={Ticket} /> */}
+              <LaunchWeekPrizeSection className="pt-10" />
             </div>
             {/* {users && <TicketBrickWall users={users} />} */}
           </div>
-          <CTABanner />
+          {/* <CTABanner /> */}
         </DefaultLayout>
       </ConfDataContext.Provider>
     </>

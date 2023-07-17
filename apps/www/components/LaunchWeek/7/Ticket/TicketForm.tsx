@@ -40,7 +40,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
         .eq('email', email)
         .select()
         .single()
-        .then(async ({ error }) => {
+        .then(async ({ error }: any) => {
           // If error because of duplicate email, ignore and proceed, otherwise sign out.
           if (error && error?.code !== '23505') return supabase.auth.signOut()
           const { data } = await supabase
@@ -79,7 +79,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
                   table: 'lw7_tickets',
                   filter: `username=eq.${username}`,
                 },
-                (payload) => {
+                (payload: any) => {
                   const golden = !!payload.new.sharedOnTwitter && !!payload.new.sharedOnLinkedIn
                   setUserData({
                     ...payload.new,
