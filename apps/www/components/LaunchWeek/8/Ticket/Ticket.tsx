@@ -1,10 +1,9 @@
 import styles from './ticket-visual.module.css'
 import TicketProfile from './TicketProfile'
 import TicketNumber from './TicketNumber'
-// import Tilt from 'vanilla-tilt'
 import useConfData, { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import TicketHeader from './TicketHeader'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import TicketForm from './TicketForm'
 import TicketFooter from './TicketFooter'
@@ -21,10 +20,10 @@ export default function TicketVisual({
   ticketGenerationState = 'default',
   setTicketGenerationState,
 }: Props) {
-  const { username, name, golden = false, bg_image_id: bgImageId, ticketNumber } = user
+  const { username, golden = false, bg_image_id: bgImageId, ticketNumber } = user
   const { session } = useConfData()
   const [imageIsLoading, setImageIsLoading] = useState(true)
-  // const ticketRef = useRef<HTMLDivElement>(null)
+
   const storageBaseFilepath = `https://obuldanrptloktxcffvn.supabase.co/storage/v1/object/public/images/lw7/tickets_bg`
 
   const ticketBg = {
@@ -38,8 +37,8 @@ export default function TicketVisual({
     },
   }
 
-  const currentTicket = golden ? 'golden' : 'regular'
-  const currentTicketBg = ticketBg[currentTicket].background
+  const CURRENT_TICKET = golden ? 'golden' : 'regular'
+  const CURRENT_TICKET_BG = ticketBg[CURRENT_TICKET].background
 
   return (
     <div className="flex relative flex-col w-[300px] h-auto md:w-full md:max-w-none backdrop-blur-md">
@@ -65,13 +64,16 @@ export default function TicketVisual({
             </div>
             <TicketFooter />
             <TicketNumber number={ticketNumber} />
-            <Image
-              src={currentTicketBg}
-              alt="ticket background"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-            />
+            <div className="absolute z-0 inset-[1px] overflow-hidden rounded-xl">
+              <Image
+                src={CURRENT_TICKET_BG}
+                alt="ticket background"
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                quality={100}
+              />
+            </div>
           </div>
         ) : (
           <TicketForm

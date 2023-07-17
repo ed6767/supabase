@@ -85,6 +85,7 @@ const TicketCustomizationForm = ({ supabase, user }: Props) => {
           handleInputChange('role', event.target.value)
         }}
         disabled={IS_SAVING}
+        maxLength={30}
         icon={
           <IconCheck
             strokeWidth={2}
@@ -102,6 +103,7 @@ const TicketCustomizationForm = ({ supabase, user }: Props) => {
         type="text"
         placeholder="company (optional)"
         value={formData.company}
+        maxLength={30}
         onChange={(event) => {
           handleInputChange('company', event.target.value)
         }}
@@ -127,6 +129,7 @@ const TicketCustomizationForm = ({ supabase, user }: Props) => {
           handleInputChange('location', event.target.value)
         }}
         disabled={IS_SAVING}
+        maxLength={20}
         icon={
           <IconCheck
             strokeWidth={2}

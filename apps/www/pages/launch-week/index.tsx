@@ -25,7 +25,7 @@ const LaunchWeekPrizeSection = dynamic(
 // const TicketBrickWall = dynamic(
 //   () => import('~/components/LaunchWeek/LaunchSection/TicketBrickWall')
 // )
-const CTABanner = dynamic(() => import('~/components/CTABanner'))
+// const CTABanner = dynamic(() => import('~/components/CTABanner'))
 
 interface Props {
   users?: UserData[]

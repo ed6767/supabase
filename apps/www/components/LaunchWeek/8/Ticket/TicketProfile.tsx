@@ -1,6 +1,3 @@
-import cn from 'classnames'
-import styles from './ticket-profile.module.css'
-import Image from 'next/image'
 import { UserData } from '../../hooks/use-conf-data'
 
 type TicketGenerationState = 'default' | 'loading'
@@ -20,7 +17,7 @@ export default function TicketProfile({ user, ticketGenerationState, golden = fa
   const HAS_NO_META = !HAS_ROLE && !HAS_COMPANY && !HAS_LOCATION
 
   return (
-    <div className="flex gap-4 items-center px-2">
+    <div className="relative z-10 flex gap-4 items-center px-2">
       <div className="text-scale-1100 text-sm md:text-base flex flex-col gap-2">
         <p className="text-3xl sm:text-4xl">{name || username || 'Your Name'}</p>
         {HAS_NO_META && username && <p>@{username}</p>}
@@ -28,7 +25,8 @@ export default function TicketProfile({ user, ticketGenerationState, golden = fa
           {HAS_ROLE && <span>{metadata?.role}</span>}
           {HAS_COMPANY && (
             <span>
-              {HAS_ROLE && ' '}@{metadata?.company}
+              {HAS_ROLE && ' '}
+              <span>at</span> {metadata?.company}
             </span>
           )}
           {HAS_LOCATION && (
