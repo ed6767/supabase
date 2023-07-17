@@ -144,7 +144,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
           },
         })
       }}
-      className="flex flex-col items-center xl:block relative z-20"
+      className="flex flex-col h-full items-center justify-center relative z-20"
     >
       <div className="flex flex-col gap-3">
         <div>

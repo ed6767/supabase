@@ -3,7 +3,7 @@ import { range } from 'lodash'
 
 let defaultConfig = {
   particles: 20,
-  particlesSize: 2,
+  particlesSize: 1.3,
   particlesSides: 5,
   particlesBlending: true,
   lightIntensity: 0.3,
@@ -16,10 +16,10 @@ let defaultConfig = {
   trailLength: 100,
   trailDecay: 450,
   color: 'white',
-  xThickness: 5,
+  xThickness: 7,
   xRandomnessFactor: 1.06,
-  xRandomnessShape: 3.5,
-  xRandomness: 2.5,
+  xRandomnessShape: 1.6,
+  xRandomness: 5.7,
   yThickness: 20,
   max_speed: 1.3,
   min_speed: -0.3,
@@ -44,7 +44,7 @@ const useParticlesConfig = (users: any): any => {
     const particlesFolder = gui.addFolder('Particles')
     const shapeFolder = gui.addFolder('Shape')
     const speedFolder = gui.addFolder('Speed')
-    const trailFolder = gui.addFolder('Trail')
+    // const trailFolder = gui.addFolder('Trail')
     gui.width = 500
     particlesFolder
       .add(config, 'particles')
@@ -80,7 +80,7 @@ const useParticlesConfig = (users: any): any => {
     particlesFolder
       .add(config, 'particlesBlending')
       .name('Blending')
-      .onChange((value) => handleSetConfig('particles¶Blending', value))
+      .onChange((value) => handleSetConfig('particlesBlending', value))
     shapeFolder
       .add(config, 'widthRadius')
       .min(1)
@@ -151,39 +151,39 @@ const useParticlesConfig = (users: any): any => {
       .step(0.1)
       .name('Max speed')
       .onChange((value) => handleSetConfig('max_speed', value))
-    trailFolder
-      .add(config, 'trails')
-      .min(0)
-      .max(10)
-      .step(1)
-      .name('Count')
-      .onChange((value) => handleSetConfig('trails', value))
-    trailFolder
-      .add(config, 'trailWidth')
-      .min(0)
-      .max(100)
-      .step(0.1)
-      .name('Thickness')
-      .onChange((value) => handleSetConfig('trailWidth', value))
-    trailFolder
-      .add(config, 'trailLength')
-      .min(1)
-      .max(100)
-      .step(0.1)
-      .name('Length')
-      .onChange((value) => handleSetConfig('trailLength', value))
-    trailFolder
-      .add(config, 'trailDecay')
-      .min(1)
-      .max(1000)
-      .step(0.1)
-      .name('Decay')
-      .onChange((value) => handleSetConfig('trailLength', value))
+    // trailFolder
+    //   .add(config, 'trails')
+    //   .min(0)
+    //   .max(10)
+    //   .step(1)
+    //   .name('Count')
+    //   .onChange((value) => handleSetConfig('trails', value))
+    // trailFolder
+    //   .add(config, 'trailWidth')
+    //   .min(0)
+    //   .max(100)
+    //   .step(0.1)
+    //   .name('Thickness')
+    //   .onChange((value) => handleSetConfig('trailWidth', value))
+    // trailFolder
+    //   .add(config, 'trailLength')
+    //   .min(1)
+    //   .max(100)
+    //   .step(0.1)
+    //   .name('Length')
+    //   .onChange((value) => handleSetConfig('trailLength', value))
+    // trailFolder
+    //   .add(config, 'trailDecay')
+    //   .min(1)
+    //   .max(1000)
+    //   .step(0.1)
+    //   .name('Decay')
+    //   .onChange((value) => handleSetConfig('trailLength', value))
 
     particlesFolder.open()
     shapeFolder.open()
     speedFolder.open()
-    trailFolder.open()
+    // trailFolder.open()
   }
 
   useEffect(() => {

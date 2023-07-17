@@ -17,11 +17,10 @@ import { LaunchWeekLogoHeader } from '../../components/LaunchWeek/8/LaunchWeekLo
 const AnimatedParticles = dynamic(
   () => import('~/components/LaunchWeek/8/AnimatedParticles/ParticlesCanvas')
 )
-const TicketContext = dynamic(() => import('~/components/LaunchWeek/8/Ticket/TicketContext'))
 const TicketContainer = dynamic(() => import('~/components/LaunchWeek/8/Ticket/TicketContainer'))
 // const LW7Releases = dynamic(() => import('~/components/LaunchWeek/Releases/LW7/LW7Releases'))
 const LaunchWeekPrizeSection = dynamic(
-  () => import('~/components/LaunchWeek/7/LaunchWeekPrizeSection')
+  () => import('~/components/LaunchWeek/8/LaunchWeekPrizeSection')
 )
 // const TicketBrickWall = dynamic(
 //   () => import('~/components/LaunchWeek/LaunchSection/TicketBrickWall')
@@ -62,8 +61,6 @@ export default function TicketHome({ users }: Props) {
 
   const [userData, setUserData] = useState<UserData>(defaultUserData)
   const [pageState, setPageState] = useState<PageState>('ticket')
-
-  console.log('userData', userData)
 
   useEffect(() => {
     if (!supabase) {
@@ -148,25 +145,17 @@ export default function TicketHome({ users }: Props) {
             <div className="relative !w-full max-w-[100vw] !px-4 sm:max-w-xl md:max-w-4xl lg:max-w-7xl z-20 flex flex-col justify-around items-center !py-4 md:!py-8 gap-2 md:gap-4 !mx-auto">
               {supabase && (
                 <div className="w-full max-w-[100vw] px-4 flex justify-center py-8 md:py-20">
-                  {/* <TicketContext
-                    supabase={supabase}
-                    session={session}
-                    userData={userData}
-                    defaultPageState="ticket"
-                  /> */}
                   <TicketContainer
-                    username={userData.username}
-                    name={userData.name}
-                    ticketNumber={userData.ticketNumber}
-                    golden={userData.golden}
-                    bgImageId={userData.bg_image_id}
+                    user={userData}
                     referrals={userData.referrals ?? 0}
+                    supabase={supabase}
                   />
                 </div>
               )}
-              {/* <LW7Releases /> */}
-              <LaunchWeekPrizeSection className="pt-10" />
             </div>
+            <SectionContainer className="!px-4 w-full">
+              <LaunchWeekPrizeSection className="" />
+            </SectionContainer>
             {/* {users && <TicketBrickWall users={users} />} */}
           </div>
           {/* <CTABanner /> */}

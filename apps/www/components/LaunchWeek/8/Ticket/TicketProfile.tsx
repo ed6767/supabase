@@ -1,87 +1,43 @@
-// import GithubIcon from '~/components/LaunchWeek/Ticket/icons/icon-github'
 import cn from 'classnames'
-import TicketForm from './TicketForm'
-// import IconAvatar from '~/components/LaunchWeek/Ticket/icons/icon-avatar'
 import styles from './ticket-profile.module.css'
 import Image from 'next/image'
+import { UserData } from '../../hooks/use-conf-data'
 
 type TicketGenerationState = 'default' | 'loading'
 type Props = {
-  name?: string
-  username?: string
-  size?: number
+  user: UserData
   ticketGenerationState?: TicketGenerationState
   setTicketGenerationState?: (ticketGenerationState: TicketGenerationState) => void
   golden?: boolean
 }
 
-// The middle part of the ticket
-// avatar / Yourn Name / Username
-export default function TicketProfile({
-  name,
-  username,
-  size = 1,
-  ticketGenerationState,
-  setTicketGenerationState,
-  golden = false,
-}: Props) {
+export default function TicketProfile({ user, ticketGenerationState, golden = false }: Props) {
+  const { username, name, metadata } = user
+
+  const HAS_ROLE = !!metadata?.role
+  const HAS_COMPANY = !!metadata?.company
+  const HAS_LOCATION = !!metadata?.location
+  const HAS_NO_META = !HAS_ROLE && !HAS_COMPANY && !HAS_LOCATION
+
   return (
-    <div className="grid gap-4 items-center justify-center px-2" id="wayfinding--ticket-middle">
-      {username && (
-        <span
-          className={cn('rounded-full inline-block mx-auto', styles.wrapper, styles.rounded, {
-            [styles.show]: ticketGenerationState === 'loading',
-          })}
-        >
-          {username ? (
-            <>
-              {/* <Image
-                src={`https://github.com/${username}.png`}
-                alt={username}
-                layout="fill"
-                objectFit="contain"
-                priority
-                className={styles.image}
-              /> */}
-            </>
-          ) : (
-            <>
-              {/* <span
-            className={cn(
-              styles.image,
-              golden ? styles['empty-icon--golden'] : styles['empty-icon']
-              )}
-              >
-             { <IconAvatar />}
-          </span> */}
-            </>
+    <div className="flex gap-4 items-center px-2">
+      <div className="text-scale-1100 text-sm md:text-base flex flex-col gap-2">
+        <p className="text-3xl sm:text-4xl">{name || username || 'Your Name'}</p>
+        {HAS_NO_META && username && <p>@{username}</p>}
+        <div>
+          {HAS_ROLE && <span>{metadata?.role}</span>}
+          {HAS_COMPANY && (
+            <span>
+              {HAS_ROLE && ' '}@{metadata?.company}
+            </span>
           )}
-        </span>
-      )}
-      <div>
-        {username ? (
-          <p
-            className={`${cn(
-              styles.name,
-              { [styles['name-blank']]: !username },
-              { [styles['name-golden']]: golden }
-            )} dark:text-white text-center`}
-          >
-            <div
-              className={`${cn(styles.skeleton, styles.wrapper, {
-                [styles.show]: ticketGenerationState === 'loading',
-              })} text-3xl sm:text-4xl bg-gradient-to-r from-[#F8F9FA] via-[#F8F9FA] to-[#F8F9FA60] bg-clip-text text-transparent text-center`}
-            >
-              {name || username || 'Your Name'}
-              <p>{name && <p className="gradient-text-scale-100 text-sm">@{username}</p>}</p>
-            </div>
-          </p>
-        ) : (
-          <TicketForm
-            defaultUsername={username ?? undefined}
-            setTicketGenerationState={setTicketGenerationState}
-          />
-        )}
+          {HAS_LOCATION && (
+            <span>
+              {' '}
+              {(HAS_ROLE || HAS_COMPANY) && '—'} {metadata?.location}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )

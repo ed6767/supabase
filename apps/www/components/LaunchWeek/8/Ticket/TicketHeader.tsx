@@ -1,19 +1,18 @@
+import Image from 'next/image'
 import React from 'react'
-import { DATE } from '~/lib/constants'
 
-interface Props {
-  size?: 'default' | 'small'
-}
-export default function TicketHeader({ size }: Props) {
+interface Props {}
+
+export default function TicketHeader({}: Props) {
   return (
-    <div className="flex w-full justify-center pt-4 md:pt-6" id="wayfinding--ticket-header">
-      <div className="flex flex-col md:flex-row gap-1 justify-center items-center md:gap-5">
-        <img
-          className={size === 'small' ? 'w-[165px]' : 'w-[220px] md:w-[230px]'}
-          src={`/images/launchweek/ticket-header-logo.png`}
-        />
-        <span className="text-white text-xs md:text-sm">{DATE}</span>
-      </div>
+    <div className="relative w-full flex mt-4 md:mt-6 h-10">
+      <Image
+        src="/images/launchweek/8/lw8-logo.svg"
+        alt="Launch Week 8 logo"
+        layout="fill"
+        objectFit="contain"
+        objectPosition="left"
+      />
     </div>
   )
 }

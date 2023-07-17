@@ -3,44 +3,41 @@ import { useState } from 'react'
 import styles from './ticket.module.css'
 import styleUtils from '../../utils.module.css'
 import Ticket from './Ticket'
-import TicketActions from '~/components/LaunchWeek/7/Ticket/TicketActions'
-import TicketCopy from '~/components/LaunchWeek/7/Ticket/ticket-copy'
+import TicketActions from '~/components/LaunchWeek/8/Ticket/TicketActions'
+import TicketCopy from '~/components/LaunchWeek/8/Ticket/ticket-copy'
 
 import ReferralIndicator from '~/components/LaunchWeek/7/ReferralIndicator'
 import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import useWinningChances from '~/components/LaunchWeek/hooks/useWinningChances'
 import { SITE_URL } from '~/lib/constants'
 import { useBreakpoint } from 'common/hooks/useBreakpoint'
+import { Badge, IconAirplay, IconCheck, Input } from 'ui'
+import TicketCustomizationForm from './TicketCustomizationForm'
+import { SupabaseClient } from '@supabase/supabase-js'
 
 type TicketGenerationState = 'default' | 'loading'
 
 type Props = {
-  username: UserData['username']
-  ticketNumber: UserData['ticketNumber']
-  name: UserData['name']
-  golden: UserData['golden']
-  bgImageId: UserData['bg_image_id']
+  user: UserData
+  supabase: SupabaseClient
   referrals: number
   sharePage?: boolean
 }
 
-export default function TicketContainer({
-  username,
-  name,
-  ticketNumber,
-  sharePage,
-  golden,
-  bgImageId,
-  referrals,
-}: Props) {
+export default function TicketContainer({ user, sharePage, referrals, supabase }: Props) {
+  const { username, name, golden, bg_image_id: bgImageId, ticketNumber } = user
   const isMobile = useBreakpoint(1023)
   const [ticketGenerationState, setTicketGenerationState] =
     useState<TicketGenerationState>('default')
   const winningChances = useWinningChances()
 
-  if (!username)
+  // if (ticketGenerationState === 'loading') {
+  //   return <div className="min-h-[400px]">loading</div>
+  // }
+
+  if (!user.username)
     return (
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex items-center justify-center min-h-[400px]">
         <div
           className={cn(
             styles['ticket-visual'],
@@ -50,13 +47,9 @@ export default function TicketContainer({
           )}
         >
           <Ticket
-            username={username ?? undefined}
-            name={name ?? undefined}
-            ticketNumber={ticketNumber ?? 0}
+            user={user}
             ticketGenerationState={ticketGenerationState}
             setTicketGenerationState={setTicketGenerationState}
-            golden={golden}
-            bgImageId={bgImageId}
           />
         </div>
       </div>
@@ -75,7 +68,7 @@ export default function TicketContainer({
           isMobile && styles['ticket-hero'],
         ].join(' ')}
       >
-        <div className="text-scale-1200 flex flex-col w-full items-center text-white text-center lg:text-left lg:items-start gap-2 lg:gap-3 mb-3 lg:mb-6">
+        <div className="text-scale-1200 flex flex-col w-full items-center text-white text-center lg:text-left lg:items-start gap-2 lg:gap-3">
           <h1
             className={cn(
               styleUtils.appear,
@@ -87,24 +80,22 @@ export default function TicketContainer({
               name ? (
                 <>
                   {winningChances === 1 && (
-                    <span className="text-2xl tracking-[0.02rem] leading-7 block">
-                      You're <span className="gradient-text-purple-800">in the draw!</span> <br />
-                      Now make it gold.
+                    <span className="text-2xl tracking-[0.02rem] leading-7 block text-scale-1000">
+                      <span className="text-white">Your in! </span>
+                      Now personalize and share your ticket.
                     </span>
                   )}
                   {winningChances === 2 && (
                     <span className="text-2xl tracking-[0.02rem] leading-7 block">
-                      You've <span className="gradient-text-purple-800">doubled</span> your{' '}
-                      <br className="hidden lg:inline" />
-                      chance!
-                      <br className="inline lg:hidden" /> Almost{' '}
-                      <span className={styles['gold-text']}>gold</span>.
+                      <span className="text-white">You've doubled your chance!</span>
+                      <br className="inline lg:hidden" /> Share again to get a golden ticket.
                     </span>
                   )}
                   {winningChances === 3 && (
                     <span className="text-2xl tracking-[0.02rem] leading-7 block">
-                      You're <span className={styles['gold-text']}>gold</span>!<br />
-                      You've maxed your <br className="hidden lg:inline" /> chances of winning!
+                      <span className={styles['gold-text']}>You're gold!</span>
+                      <br />
+                      Congratulations, you've maxed your chances of winning!
                     </span>
                   )}
                 </>
@@ -122,7 +113,7 @@ export default function TicketContainer({
             )}
           </h1>
 
-          <div className="text-base text-white leading-5">
+          <div className="text-sm text-scale-1200 leading-5">
             {!sharePage ? (
               golden ? (
                 <p>
@@ -131,8 +122,7 @@ export default function TicketContainer({
                 </p>
               ) : username ? (
                 <p>
-                  Why stop there? Increase your chances of winning by sharing your unique ticket.
-                  Get sharing!
+                  Increase your chances of winning by sharing your unique ticket with the community.
                 </p>
               ) : (
                 <p>
@@ -159,39 +149,33 @@ export default function TicketContainer({
             )}
           </div>
 
-          {!sharePage && username && <ReferralIndicator />}
-        </div>
-        <div>
-          {username && (
-            <TicketActions
-              username={username}
-              golden={golden}
-              ticketGenerationState={ticketGenerationState}
-              setTicketGenerationState={setTicketGenerationState}
-            />
-          )}
+          {user.username && <TicketCustomizationForm user={user} supabase={supabase} />}
+
+          {/* {!sharePage && username && <ReferralIndicator />} */}
         </div>
       </div>
-      <div className="w-full flex-1 col-span-8 lg:-mt-16">
+      <div className="w-full flex-1 col-span-8 lg:-mt-12">
         <div
           className={cn(
             styles['ticket-visual'],
             styleUtils.appear,
-            styleUtils['appear-fourth'],
-            'relative flex flex-col items-center gap-2 w-full'
+            styleUtils['appear-first'],
+            'relative flex flex-col items-center gap-4 w-full'
           )}
         >
           <Ticket
-            username={username ?? undefined}
-            name={name ?? undefined}
-            ticketNumber={ticketNumber ?? 0}
+            user={user}
             ticketGenerationState={ticketGenerationState}
             setTicketGenerationState={setTicketGenerationState}
-            golden={golden}
-            bgImageId={bgImageId}
           />
           {username && (
             <div className="w-full">
+              <TicketActions
+                username={username}
+                golden={golden}
+                ticketGenerationState={ticketGenerationState}
+                setTicketGenerationState={setTicketGenerationState}
+              />
               <TicketCopy username={username} isGolden={golden} />
             </div>
           )}

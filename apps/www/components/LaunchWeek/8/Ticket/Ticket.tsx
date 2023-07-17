@@ -2,33 +2,26 @@ import styles from './ticket-visual.module.css'
 import TicketProfile from './TicketProfile'
 import TicketNumber from './TicketNumber'
 // import Tilt from 'vanilla-tilt'
-import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
+import useConfData, { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import TicketHeader from './TicketHeader'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import TicketForm from './TicketForm'
+import TicketFooter from './TicketFooter'
 
 type TicketGenerationState = 'default' | 'loading'
 type Props = {
-  size?: number
-  name?: string
-  ticketNumber?: number
-  bgImageId?: number
-  username?: string
+  user: UserData
   ticketGenerationState?: TicketGenerationState
   setTicketGenerationState?: any
-  golden?: boolean
 }
 
 export default function TicketVisual({
-  size = 1,
-  name,
-  username,
-  bgImageId,
-  ticketNumber,
+  user,
   ticketGenerationState = 'default',
   setTicketGenerationState,
-  golden = false,
 }: Props) {
+  const { username, name, golden = false, bg_image_id: bgImageId, ticketNumber } = user
   const { session } = useConfData()
   const [imageIsLoading, setImageIsLoading] = useState(true)
   // const ticketRef = useRef<HTMLDivElement>(null)
@@ -37,36 +30,20 @@ export default function TicketVisual({
   const ticketBg = {
     regular: {
       image: `${storageBaseFilepath}/blurred/regular/jpg/reg_bg_${bgImageId}.jpg`,
-      overlay: `/images/launchweek/seven/ticket-overlay-reg.png`,
+      background: `/images/launchweek/8/ticket-bg/regular.png`,
     },
-    gold: {
+    golden: {
       image: `${storageBaseFilepath}/blurred/golden/jpg/gold_bg_${bgImageId}.jpg`,
-      overlay: `/images/launchweek/seven/ticket-overlay-gold.png`,
+      background: `/images/launchweek/8/ticket-bg/golden.png`,
     },
   }
 
-  // useEffect(() => {
-  //   if (ticketRef.current && !window.matchMedia('(pointer: coarse)').matches) {
-  //     Tilt.init(ticketRef.current, {
-  //       glare: !golden,
-  //       max: 4,
-  //       gyroscope: true,
-  //       'max-glare': 0.3,
-  //       'full-page-listening': true,
-  //     })
-  //   }
-  // }, [ticketRef])
+  const currentTicket = golden ? 'golden' : 'regular'
+  const currentTicketBg = ticketBg[currentTicket].background
 
   return (
-    <div
-      className="flex relative flex-col w-[300px] h-auto md:w-full md:max-w-none backdrop-blur-md"
-      // style={{
-      //   transform: 'translate3d(0, 0, 100px)',
-      //   transformStyle: 'preserve-3d',
-      // }}
-    >
+    <div className="flex relative flex-col w-[300px] h-auto md:w-full md:max-w-none backdrop-blur-md">
       <div
-        // ref={ticketRef}
         className={[
           styles.visual,
           golden ? styles['visual--gold'] : '',
@@ -74,49 +51,34 @@ export default function TicketVisual({
           !golden && 'overflow-hidden',
           'flex relative flex-col justify-between w-full aspect-[1.935/1] bg-gradient-to-b from-[#ffffff80] to-[#ffffff20] before:rounded-2xl box-border backdrop-blur-md rounded-xl',
         ].join(' ')}
-        style={{
-          ['--size' as string]: size,
-        }}
       >
-        <div className="absolute inset-0 h-[calc(100%-100px)] z-10 flex flex-col items-center justify-between w-full md:h-full flex-1 md:pl-[6%] md:pr-[15%] overflow-hidden">
-          {/* {username && <TicketHeader />} */}
-          <div className="flex-1 w-full h-full md:h-auto flex py-6 md:py-4 flex-col justify-center">
-            <TicketProfile
-              name={name}
-              username={username}
-              size={size}
-              ticketGenerationState={ticketGenerationState}
-              setTicketGenerationState={setTicketGenerationState}
-              golden={golden}
-            />
-          </div>
-        </div>
-        {/* <TicketNumber number={ticketNumber} /> */}
-        <div className="absolute inset-[1px] z-0 rounded-2xl overflow-hidden">
-          {/* {username && (
+        {username ? (
+          <div className="absolute inset-0 h-[calc(100%-100px)] z-10 flex flex-col items-center justify-between w-full md:h-full flex-1 md:pl-8 md:pr-[15%] overflow-hidden">
+            <TicketHeader />
+            <div className="flex-1 w-full h-full md:h-auto flex py-6 md:py-4 flex-col justify-center">
+              <TicketProfile
+                user={user}
+                ticketGenerationState={ticketGenerationState}
+                setTicketGenerationState={setTicketGenerationState}
+                golden={golden}
+              />
+            </div>
+            <TicketFooter />
+            <TicketNumber number={ticketNumber} />
             <Image
-              src={golden ? ticketBg.gold.overlay : ticketBg.regular.overlay}
+              src={currentTicketBg}
+              alt="ticket background"
               layout="fill"
               objectFit="cover"
-              placeholder="blur"
-              blurDataURL="/images/blur.png"
-              className="absolute inset-[1px] z-[1]"
+              objectPosition="center"
             />
-          )}
-          <Image
-            src={golden ? ticketBg.gold.image : ticketBg.regular.image}
-            layout="fill"
-            objectFit="cover"
-            placeholder="blur"
-            blurDataURL="/images/blur.png"
-            priority
-            className={[
-              'duration-700 ease-in-out transform transition-all',
-              imageIsLoading ? 'grayscale blur-xl scale-110' : 'scale-100 grayscale-0 blur-0',
-            ].join(' ')}
-            onLoadingComplete={() => setImageIsLoading(false)}
-          /> */}
-        </div>
+          </div>
+        ) : (
+          <TicketForm
+            defaultUsername={username ?? undefined}
+            setTicketGenerationState={setTicketGenerationState}
+          />
+        )}
       </div>
     </div>
   )

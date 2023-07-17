@@ -5,12 +5,18 @@ export type PageState = 'registration' | 'ticket'
 
 export type UserData = {
   id?: string
+  email?: string
   ticketNumber?: number
   username?: string
   name?: string
   golden?: boolean
   referrals?: number
   bg_image_id?: number
+  metadata?: {
+    role?: string
+    company?: string
+    location?: string
+  }
   sharedOnTwitter?: string
   sharedOnLinkedIn?: string
 }

@@ -16,7 +16,8 @@ export function LaunchWeekLogoHeader() {
         </p>
         <div className="text-[#9296AA]">
           Join us in a week of announcing new features. <br className="hidden md:block" />
-          Generate and share your unique ticket to win swag and help us complete the 8.
+          {/* Generate and share your unique ticket to win swag and help us complete the 8. */}
+          Connect with Github to generate your unique ticket and contribute to the 8️⃣ shape.
         </div>
       </div>
     </div>
