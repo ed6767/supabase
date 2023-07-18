@@ -29,7 +29,7 @@ const supabaseAdmin = createClient(
 
 const generateOgs = async (users: UserData[]) => {
   users?.map(async (user) => {
-    const ogImageUrl = `https://obuldanrptloktxcffvn.functions.supabase.co/lw7-ticket-og?username=${encodeURIComponent(
+    const ogImageUrl = `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket-og?username=${encodeURIComponent(
       user.username ?? ''
     )}${!!user.golden ? '&golden=true' : ''}`
     return await fetch(ogImageUrl)
@@ -40,8 +40,8 @@ export default function TicketsPage({ users }: Props) {
   const ref = useRef(null)
   const PAGE_COUNT = 20
   const TITLE = '#SupaLaunchWeek Tickets'
-  const DESCRIPTION = 'Supabase Launch Week 7 | 10–14 April 2023'
-  const OG_IMAGE = `${SITE_ORIGIN}/images/launchweek/seven/launch-week-7-teaser.jpg`
+  const DESCRIPTION = 'Supabase Launch Week 8 | 7–11 August 2023'
+  const OG_IMAGE = `${SITE_ORIGIN}/images/launchweek/8/lw8-og.jpg`
 
   const { isDarkMode } = useTheme()
   const [isLoading, setIsLoading] = useState(false)

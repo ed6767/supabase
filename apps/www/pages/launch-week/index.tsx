@@ -43,7 +43,7 @@ export default function TicketHome({ users }: Props) {
 
   const TITLE = 'Supabase LaunchWeek 8'
   const DESCRIPTION = 'Supabase Launch Week 8 | 7–11 August 2023'
-  const OG_IMAGE = `${SITE_ORIGIN}/images/launchweek/seven/launch-week-7-teaser.jpg`
+  const OG_IMAGE = `${SITE_ORIGIN}/images/launchweek/8/lw8-og.jpg`
   const ticketNumber = query.ticketNumber?.toString()
   const bgImageId = query.bgImageId?.toString()
   const [supabase, setSupabase] = useState<SupabaseClient | null>(null)
