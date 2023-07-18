@@ -25,7 +25,7 @@ const LaunchWeekPrizeSection = dynamic(
 // const TicketBrickWall = dynamic(
 //   () => import('~/components/LaunchWeek/LaunchSection/TicketBrickWall')
 // )
-// const CTABanner = dynamic(() => import('~/components/CTABanner'))
+const CTABanner = dynamic(() => import('~/components/CTABanner'))
 
 interface Props {
   users?: UserData[]
@@ -158,7 +158,7 @@ export default function TicketHome({ users }: Props) {
             </SectionContainer>
             {/* {users && <TicketBrickWall users={users} />} */}
           </div>
-          {/* <CTABanner /> */}
+          <CTABanner className="!bg-[#020405]" />
         </DefaultLayout>
       </ConfDataContext.Provider>
     </>

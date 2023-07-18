@@ -15,7 +15,7 @@ export default function LaunchWeekPrizeSection({
   const Ticket = ticket
 
   return (
-    <div id="lw-8-prizes" className={['scroll-mt-[75px]', className].join(' ')}>
+    <div id="lw8-prizes" className={['scroll-mt-[75px]', className].join(' ')}>
       <div className="!max-w-[100vw]">
         <div className="text-center relative z-10 text-white">
           <motion.div

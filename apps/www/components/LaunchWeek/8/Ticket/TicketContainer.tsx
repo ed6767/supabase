@@ -14,6 +14,7 @@ import { useBreakpoint } from 'common/hooks/useBreakpoint'
 import { Badge, IconAirplay, IconCheck, Input } from 'ui'
 import TicketCustomizationForm from './TicketCustomizationForm'
 import { SupabaseClient } from '@supabase/supabase-js'
+import Link from 'next/link'
 
 type TicketGenerationState = 'default' | 'loading'
 
@@ -133,23 +134,28 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
             ) : (
               <>
                 <p>
-                  Get yours and win some fantastic swag, including a limited-edition mechanical
-                  keyboard that you won't want to miss.
+                  Generate and share your own custom ticket for a chance to win{' '}
+                  <Link href="#lw8-prizes">
+                    <a className="hover:!underline !text-brand-900">awesome swag</a>
+                  </Link>
+                  .
                 </p>
 
-                <div className="mt-4 lg:mt-8 rounded-full bg-[#E6E8EB] py-1 px-3 -mb-3 border border-[#bbbbbb] text-xs transition-all ease-out hover:bg-[#dfe1e3]">
+                <div className="mt-4 lg:mt-8 rounded bg-transparent py-1.5 px-3 -mb-3 border border-[#dfe1e3] text-xs transition-all ease-out hover:bg-[#dfe1e3] text-[#dfe1e3] hover:text-[#2e2e2e]">
                   <a
                     href={`${SITE_URL}/${username ? '?referral=' + username : ''}`}
-                    className={`flex items-center justify-center gap-2 text-[#2e2e2e]`}
+                    className={`flex items-center justify-center gap-2`}
                   >
-                    Go to Launch Week 7
+                    Join Launch Week 8
                   </a>
                 </div>
               </>
             )}
           </div>
 
-          {user.username && <TicketCustomizationForm user={user} supabase={supabase} />}
+          {!sharePage && user.username && (
+            <TicketCustomizationForm user={user} supabase={supabase} />
+          )}
 
           {/* {!sharePage && username && <ReferralIndicator />} */}
         </div>

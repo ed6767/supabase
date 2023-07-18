@@ -1,13 +1,18 @@
 import { Button } from 'ui'
 
-const CTABanner = (props: any) => {
-  const { darkerBg } = props
+interface Props {
+  className?: string
+  darkerBg?: boolean
+}
+
+const CTABanner = ({ darkerBg, className }: Props) => {
   return (
     <div
-      className={`
-        bg-scale-200 grid grid-cols-12 items-center gap-4 border-t py-32 text-center
-        ${darkerBg ? 'dark:bg-dark-900' : ''} px-16
-      `}
+      className={[
+        `bg-scale-200 grid grid-cols-12 items-center gap-4 border-t py-32 text-center px-16`,
+        darkerBg && 'dark:bg-dark-900',
+        className,
+      ].join(' ')}
     >
       <div className="col-span-12">
         <h2 className="h2">
