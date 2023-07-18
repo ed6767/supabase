@@ -6,12 +6,13 @@ import { corsHeaders } from '../_shared/cors.ts'
 const STORAGE_URL = 'https://obuldanrptloktxcffvn.supabase.co/storage/v1/object/public/images/lw8'
 
 // Load custom font
-const FONT_URL = `${STORAGE_URL}/CircularStd-Book.otf`
+const FONT_URL = `${STORAGE_URL}/font/CircularStd-Book.otf`
+const MONO_FONT_URL = `${STORAGE_URL}/font/SourceCodePro-Regular.ttf?t=2023-07-18T13%3A03%3A29.474Z`
 const font = fetch(new URL(FONT_URL, import.meta.url)).then((res) => res.arrayBuffer())
+const mono_font = fetch(new URL(MONO_FONT_URL, import.meta.url)).then((res) => res.arrayBuffer())
 const BUCKET_FOLDER_VERSION = 'v1'
 
 const LW_TABLE = 'lw8_tickets_staging'
-// const LW_TABLE = 'lw7_tickets_golden'
 
 export async function handler(req: Request) {
   const url = new URL(req.url)
@@ -21,13 +22,15 @@ export async function handler(req: Request) {
 
   try {
     if (!username) throw new Error('missing username param')
-    // Track social shares
+
     const supabaseAdminClient = createClient(
       // Supabase API URL - env var exported by default when deployed.
       Deno.env.get('SUPABASE_URL') ?? '',
       // Supabase API SERVICE ROLE KEY - env var exported by default when deployed.
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
+
+    // Track social shares
     if (userAgent?.toLocaleLowerCase().includes('twitter')) {
       await supabaseAdminClient
         .from(LW_TABLE)
@@ -56,116 +59,93 @@ export async function handler(req: Request) {
     // Get ticket data
     const { data, error } = await supabaseAdminClient
       .from(LW_TABLE)
-      .select('name, ticketNumber, sharedOnTwitter, sharedOnLinkedin, bg_image_id, metadata')
+      .select('name, ticketNumber, bg_image_id, sharedOnTwitter, sharedOnLinkedIn, metadata')
       .eq('username', username)
       .maybeSingle()
 
     if (error) console.log(error.message)
-    if (!data) throw new Error('user not found')
+    if (!data) throw new Error(error?.message ?? 'user not found')
     const { name, ticketNumber, bg_image_id, metadata } = data
-    const golden = (!!data?.sharedOnTwitter && !!data?.sharedOnLinkedin) ?? false
 
+    const golden = (!!data?.sharedOnTwitter && !!data?.sharedOnLinkedIn) ?? false
     if (assumeGolden && !golden) return await fetch(`${STORAGE_URL}/golden_no_meme.png`)
 
     // Else, generate image and upload to storage.
     const BACKGROUND = {
       REG: {
-        BG: `${STORAGE_URL}/backgrounds/regular.png`,
-        // AI: `${STORAGE_URL}/tickets_bg/blurred/regular/png/reg_bg_${bg_image_id ?? '1'}.png`,
-        TICKET: `${STORAGE_URL}/reg_ticket.png`,
+        BG: `${STORAGE_URL}/assets/backgrounds/regular.png`,
+        LOGO: `${STORAGE_URL}/assets/lw8-logo-regular.png`,
       },
       GOLD: {
-        BG: `${STORAGE_URL}/backgrounds/golden.png`,
-        // AI: `${STORAGE_URL}/tickets_bg/blurred/golden/png/gold_bg_${bg_image_id ?? '1'}.png`,
-        TICKET: `${STORAGE_URL}/gold_ticket.png`,
+        BG: `${STORAGE_URL}/assets/backgrounds/golden.png`,
+        LOGO: `${STORAGE_URL}/assets/lw8-logo-gold.png`,
       },
     }
 
     const fontData = await font
+    const monoFontData = await mono_font
     const numDigits = `${Number(ticketNumber)}`.length
     const prefix = `00000000`.slice(numDigits)
+    const HAS_ROLE = !!metadata?.role
+    const HAS_COMPANY = !!metadata?.company
+    const HAS_LOCATION = !!metadata?.location
+    const HAS_NO_META = !HAS_ROLE && !HAS_COMPANY && !HAS_LOCATION
 
-    const generatedImage = new ImageResponse(
+    const generatedTicketImage = new ImageResponse(
       (
         <>
           <div
             style={{
               width: '1200px',
-              height: '630px',
+              height: '628px',
+              position: 'relative',
               backgroundColor: '#000',
               color: '#F8F9FA',
               fontFamily: '"Circular"',
               overflow: 'hidden',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              flexDirection: 'column',
+              padding: '60px',
+              justifyContent: 'space-between',
             }}
           >
-            {/* Background gradient  */}
+            {/* Background  */}
             <img
-              width="1200"
-              height="630"
+              width="1202"
+              height="632"
               style={{
                 position: 'absolute',
-                top: '0',
-                left: '0',
+                top: '-1px',
+                left: '-1px',
+                bottom: '-1px',
+                right: '-1px',
                 zIndex: '-9000',
               }}
               src={golden ? BACKGROUND['GOLD']['BG'] : BACKGROUND['REG']['BG']}
             />
-            {/* Background ai  */}
-            {/* <img
-              width="1027"
-              height="524"
-              style={{
-                borderRadius: '24px',
-                position: 'absolute',
-                objectFit: 'cover',
-                top: '53',
-                left: '87',
-                zIndex: '-8000',
-              }}
-              src={golden ? BACKGROUND['GOLD']['AI'] : BACKGROUND['REG']['AI']}
-            /> */}
-            {/* Background ticket  */}
-            <img
-              width="1089"
-              height="586"
-              style={{
-                position: 'absolute',
-                top: '22',
-                left: '56',
-                zIndex: '-7000',
-              }}
-              src={golden ? BACKGROUND['GOLD']['TICKET'] : BACKGROUND['REG']['TICKET']}
-            />
-            {/* GitHub Avatar image */}
-            <img
-              width="166"
-              height="166"
-              style={{
-                position: 'absolute',
-                top: '210',
-                left: '484',
-                borderRadius: 83,
-              }}
-              src={`https://github.com/${username}.png`}
-            />
+            <div style={{ display: 'flex' }}>
+              <img
+                src={golden ? BACKGROUND['GOLD']['LOGO'] : BACKGROUND['REG']['LOGO']}
+                width={230}
+                height={45}
+              />
+            </div>
+
             {/* Name & username */}
             <div
               style={{
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'flex-start',
                 justifyContent: 'center',
                 flexDirection: 'column',
                 position: 'absolute',
-                top: '350',
-                left: '210',
+                top: '114',
+                left: '60',
                 width: '727',
-                height: '200',
+                height: '400',
                 overflow: 'hidden',
                 textOverflow: 'clip',
-                textAlign: 'center',
+                textAlign: 'left',
               }}
             >
               <div
@@ -175,17 +155,18 @@ export async function handler(req: Request) {
                   backgroundImage:
                     'linear-gradient(90deg, rgba(248, 249, 250, 0.66) -31.69%, #F8F9FA 22.14%, rgba(248, 249, 250, 0.5) 122.78%)',
                   backgroundClip: 'text',
+                  marginBottom: '20px',
                 }}
               >
                 <p
                   style={{
                     margin: '0',
-                    fontSize: '50px',
-                    lineHeight: '65px',
+                    fontSize: '60px',
+                    lineHeight: '72px',
                   }}
                 >
                   {name ?? username}
-                </p>{' '}
+                </p>
               </div>
 
               {/* Username */}
@@ -194,47 +175,75 @@ export async function handler(req: Request) {
                   color: '#EDEDED',
                   opacity: 0.8,
                   display: 'flex',
-                  fontSize: '20',
+                  fontSize: '24',
                   marginTop: '0px',
                 }}
               >
-                <span>{`@${username}`}</span>
+                {HAS_NO_META && username && <span>@{username}</span>}
+                {HAS_ROLE && <span>{metadata.role}</span>}
+                {HAS_COMPANY && (
+                  <span style={{ marginLeft: '7' }}>
+                    <span style={{ marginRight: '7' }}>{HAS_ROLE && ' '}at </span>{' '}
+                    {metadata.company}
+                  </span>
+                )}
+                {HAS_LOCATION && (
+                  <span style={{ marginLeft: '7' }}>
+                    {' '}
+                    {(HAS_ROLE || HAS_COMPANY) && '—'} {metadata.location}
+                  </span>
+                )}
               </div>
             </div>
+            <p
+              style={{
+                fontFamily: '"SourceCodePro"',
+                fontSize: '18',
+                textTransform: 'uppercase',
+                letterSpacing: '0.15rem',
+              }}
+            >
+              <span>August 7-11</span>
+              <span style={{ marginLeft: '80px' }}>supabase.com/launch-week</span>
+            </p>
           </div>
           {/* Ticket No  */}
-          <div
+          <p
             style={{
               color: '#F8F9FA',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               position: 'absolute',
-              bottom: '225',
-              right: '-130',
-              width: '575',
-              height: '175',
-              transform: 'rotate(90deg)',
+              bottom: '310',
+              right: '-240',
+              margin: 'auto 0',
+              textAlign: 'center',
+              width: '628',
+              height: '28',
+              transform: 'rotate(-90deg)',
               opacity: 0.8,
+              fontFamily: '"SourceCodePro"',
+              fontSize: '35',
+              letterSpacing: '1.5rem',
             }}
           >
-            <p
-              style={{
-                fontSize: '60',
-              }}
-            >
-              {`No ${prefix}${ticketNumber}`}
-            </p>
-          </div>
+            {`NO ${prefix}${ticketNumber}`}
+          </p>
         </>
       ),
       {
         width: 1200,
-        height: 630,
+        height: 628,
         fonts: [
           {
             name: 'Circular',
             data: fontData,
+            style: 'normal',
+          },
+          {
+            name: 'SourceCodePro',
+            data: monoFontData,
             style: 'normal',
           },
         ],
@@ -251,7 +260,7 @@ export async function handler(req: Request) {
       .from('images')
       .upload(
         `lw8/tickets/${golden ? 'golden' : 'regular'}/${BUCKET_FOLDER_VERSION}/${username}.png`,
-        generatedImage.body!,
+        generatedTicketImage.body!,
         {
           contentType: 'image/png',
           cacheControl: '31536000',
@@ -260,30 +269,27 @@ export async function handler(req: Request) {
       )
     if (storageError) throw new Error(`storageError: ${storageError.message}`)
 
-    // return generatedImage
+    // return generatedTicketImage
 
-    // Generate image for gallery
-    // fetch('https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket-gallery', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization:
-    //       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9idWxkYW5ycHRsb2t0eGNmZnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njk3MjcwMTIsImV4cCI6MTk4NTMwMzAxMn0.SZLqryz_-stF8dgzeVXmzZWPOqdOrBwqJROlFES8v3I',
-    //   },
-    //   body: JSON.stringify({
-    //     username,
-    //     name,
-    //     ticketNumber,
-    //     bg_image_id,
-    //     golden,
-    //   }),
-    // })
+    // Generate og image
+    fetch('https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket-og', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9idWxkYW5ycHRsb2t0eGNmZnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njk3MjcwMTIsImV4cCI6MTk4NTMwMzAxMn0.SZLqryz_-stF8dgzeVXmzZWPOqdOrBwqJROlFES8v3I',
+      },
+      body: JSON.stringify({
+        username,
+        golden,
+      }),
+    })
 
-    // return await fetch(
-    //   `${STORAGE_URL}/tickets/${
-    //     golden ? 'golden' : 'regular'
-    //   }/${BUCKET_FOLDER_VERSION}/${username}.png`
-    // )
+    return await fetch(
+      `${STORAGE_URL}/tickets/${
+        golden ? 'golden' : 'regular'
+      }/${BUCKET_FOLDER_VERSION}/${username}.png`
+    )
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
