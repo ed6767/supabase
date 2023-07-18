@@ -1,7 +1,6 @@
 import React from 'react'
 import LabelBadge from './LabelBadge'
 import LaunchWeekPrizeCard from './LaunchWeekPrizeCard'
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 export default function LaunchWeekPrizeSection({
@@ -11,21 +10,14 @@ export default function LaunchWeekPrizeSection({
   className?: string
   ticket?: any
 }) {
-  const finalAnimationState = { y: 0, opacity: 1 }
   const Ticket = ticket
 
   return (
     <div id="lw8-prizes" className={['scroll-mt-[75px]', className].join(' ')}>
       <div className="!max-w-[100vw]">
         <div className="text-center relative z-10 text-white">
-          <motion.div
-            className="max-w-[38rem] mx-auto flex flex-col items-center gap-4 px-4"
-            initial={{ y: -20, opacity: 0 }}
-            whileInView={finalAnimationState}
-            viewport={{ once: true, margin: '-150px' }}
-            transition={{ type: 'spring', bounce: 0, delay: 0.2 }}
-          >
-            <div className="w-[40px] h-[40px] rounded-sm bg-[#030A0C] flex items-center justify-center">
+          <div className="max-w-[38rem] mx-auto flex flex-col items-center gap-4 px-4">
+            <div className="w-[40px] h-[40px] rounded-sm flex items-center justify-center">
               <Image
                 src="/images/launchweek/8/prize-icon.svg"
                 alt="prizes"
@@ -40,7 +32,7 @@ export default function LaunchWeekPrizeSection({
               <br className="hidden md:inline-block" /> and find out if you are one of the lucky
               winners. Get sharing!
             </p>
-          </motion.div>
+          </div>
         </div>
         {ticket && <Ticket />}
         <div className="pt-8 lg:pt-16 px-4">

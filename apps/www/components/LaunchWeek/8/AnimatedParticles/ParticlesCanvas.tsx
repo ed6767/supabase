@@ -30,7 +30,7 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
         .on(
           'postgres_changes',
           {
-            event: '*',
+            event: 'INSERT',
             schema: 'public',
             table: 'lw8_tickets_staging',
           },

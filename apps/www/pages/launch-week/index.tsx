@@ -18,7 +18,6 @@ const AnimatedParticles = dynamic(
   () => import('~/components/LaunchWeek/8/AnimatedParticles/ParticlesCanvas')
 )
 const TicketContainer = dynamic(() => import('~/components/LaunchWeek/8/Ticket/TicketContainer'))
-// const LW7Releases = dynamic(() => import('~/components/LaunchWeek/Releases/LW7/LW7Releases'))
 const LaunchWeekPrizeSection = dynamic(
   () => import('~/components/LaunchWeek/8/LaunchWeekPrizeSection')
 )
@@ -44,6 +43,7 @@ export default function TicketHome({ users }: Props) {
   const TITLE = 'Supabase LaunchWeek 8'
   const DESCRIPTION = 'Supabase Launch Week 8 | 7–11 August 2023'
   const OG_IMAGE = `${SITE_ORIGIN}/images/launchweek/8/lw8-og.jpg`
+
   const ticketNumber = query.ticketNumber?.toString()
   const bgImageId = query.bgImageId?.toString()
   const [supabase, setSupabase] = useState<SupabaseClient | null>(null)
@@ -122,23 +122,25 @@ export default function TicketHome({ users }: Props) {
       >
         <DefaultLayout>
           <div className="-mt-[65px]">
-            <div className="relative pt-16">
+            <div className="relative">
               <div className="relative z-10">
-                <SectionContainer className="relative flex flex-col justify-around items-center min-h-[400px] lg:min-h-[600px] !py-4 md:!py-8 gap-2 md:gap-4 !px-2 !mx-auto">
+                <SectionContainer className="relative flex flex-col justify-around items-center min-h-[450px] lg:min-h-[600px] !py-4 md:!py-8 gap-2 md:gap-4 !px-0 !mx-auto">
                   <div className="absolute bottom-0 z-10 w-full justify-center flex items-end">
                     <LaunchWeekLogoHeader />
                   </div>
                   <div className="absolute inset-0 z-0">
                     <AnimatedParticles users={users} />
-                    <Image
-                      src="/images/launchweek/8/LW8-gradient.png"
-                      layout="fill"
-                      objectFit="cover"
-                      objectPosition="top"
-                      priority
-                    />
                   </div>
                 </SectionContainer>
+                <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">
+                  <Image
+                    src="/images/launchweek/8/LW8-gradient.png"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="top"
+                    priority
+                  />
+                </div>
               </div>
             </div>
 
@@ -153,7 +155,7 @@ export default function TicketHome({ users }: Props) {
                 </div>
               )}
             </div>
-            <SectionContainer className="!px-4 w-full">
+            <SectionContainer className="!pt-8 !px-4 w-full">
               <LaunchWeekPrizeSection className="" />
             </SectionContainer>
             {/* {users && <TicketBrickWall users={users} />} */}

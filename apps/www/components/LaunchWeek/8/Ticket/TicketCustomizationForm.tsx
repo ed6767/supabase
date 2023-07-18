@@ -144,6 +144,7 @@ const TicketCustomizationForm = ({ supabase, user }: Props) => {
       <div className="flex justify-between">
         <div className="text-scale-1000 text-xs flex gap-2 items-center">
           <div className="w-1 h-1 rounded-full bg-scale-1000 animate-pulse" />
+          {/* TODO: add realtime count */}
           <p>23 people are customising their ticket</p>
         </div>
       </div>

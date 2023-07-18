@@ -11,7 +11,7 @@ import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import useWinningChances from '~/components/LaunchWeek/hooks/useWinningChances'
 import { SITE_URL } from '~/lib/constants'
 import { useBreakpoint } from 'common/hooks/useBreakpoint'
-import { Badge, IconAirplay, IconCheck, Input } from 'ui'
+import { Button } from 'ui'
 import TicketCustomizationForm from './TicketCustomizationForm'
 import { SupabaseClient } from '@supabase/supabase-js'
 import Link from 'next/link'
@@ -65,7 +65,7 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
     >
       <div
         className={[
-          'flex flex-col !w-full h-full justify-center col-span-full p-2 lg:p-8 lg:col-span-4 max-h-[400px] rounded-3xl backdrop-blur lg:backdrop-blur-none',
+          'flex flex-col !w-full h-full justify-center col-span-full p-6 lg:p-8 lg:col-span-4 max-h-[400px] rounded-3xl backdrop-blur lg:backdrop-blur-none',
           isMobile && styles['ticket-hero'],
         ].join(' ')}
       >
@@ -83,7 +83,7 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
                   {winningChances === 1 && (
                     <span className="text-2xl tracking-[0.02rem] leading-7 block text-scale-1000">
                       <span className="text-white">Your in! </span>
-                      Now personalize and share your ticket.
+                      Now make it unique and share.
                     </span>
                   )}
                   {winningChances === 2 && (
@@ -123,7 +123,8 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
                 </p>
               ) : username ? (
                 <p>
-                  Increase your chances of winning by sharing your unique ticket with the community.
+                  Customize your ticket and increase your chances of winning by sharing it with the
+                  community.
                 </p>
               ) : (
                 <p>
@@ -141,14 +142,14 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
                   .
                 </p>
 
-                <div className="mt-4 lg:mt-8 rounded bg-transparent py-1.5 px-3 -mb-3 border border-[#dfe1e3] text-xs transition-all ease-out hover:bg-[#dfe1e3] text-[#dfe1e3] hover:text-[#2e2e2e]">
+                <Button type="secondary" asChild>
                   <a
                     href={`${SITE_URL}/${username ? '?referral=' + username : ''}`}
-                    className={`flex items-center justify-center gap-2`}
+                    className="w-full mt-4 lg:mt-8"
                   >
                     Join Launch Week 8
                   </a>
-                </div>
+                </Button>
               </>
             )}
           </div>
