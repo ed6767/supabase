@@ -1,14 +1,17 @@
 import React from 'https://esm.sh/react@18.2.0?deno-std=0.140.0'
 import { ImageResponse } from 'https://deno.land/x/og_edge@0.0.4/mod.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
-import { corsHeaders } from '../_shared/cors.js'
+import { corsHeaders } from '../_shared/cors.ts'
 
 const STORAGE_URL = 'https://obuldanrptloktxcffvn.supabase.co/storage/v1/object/public/images/lw8'
 
 // Load custom font
 const FONT_URL = `${STORAGE_URL}/CircularStd-Book.otf`
 const font = fetch(new URL(FONT_URL, import.meta.url)).then((res) => res.arrayBuffer())
-const BUCKET_FOLDER_VERSION = 'v3'
+const BUCKET_FOLDER_VERSION = 'v1'
+
+const LW_TABLE = 'lw8_tickets_staging'
+// const LW_TABLE = 'lw7_tickets_golden'
 
 export async function handler(req: Request) {
   const url = new URL(req.url)
@@ -27,13 +30,13 @@ export async function handler(req: Request) {
     )
     if (userAgent?.toLocaleLowerCase().includes('twitter')) {
       await supabaseAdminClient
-        .from('lw8_tickets')
+        .from(LW_TABLE)
         .update({ sharedOnTwitter: 'now' })
         .eq('username', username)
         .is('sharedOnTwitter', null)
     } else if (userAgent?.toLocaleLowerCase().includes('linkedin')) {
       await supabaseAdminClient
-        .from('lw8_tickets')
+        .from(LW_TABLE)
         .update({ sharedOnLinkedIn: 'now' })
         .eq('username', username)
         .is('sharedOnLinkedIn', null)
@@ -52,27 +55,28 @@ export async function handler(req: Request) {
 
     // Get ticket data
     const { data, error } = await supabaseAdminClient
-      .from('lw8_tickets_golden')
-      .select('name, ticketNumber, golden, bg_image_id')
+      .from(LW_TABLE)
+      .select('name, ticketNumber, sharedOnTwitter, sharedOnLinkedin, bg_image_id, metadata')
       .eq('username', username)
       .maybeSingle()
+
     if (error) console.log(error.message)
     if (!data) throw new Error('user not found')
-    const { name, ticketNumber, bg_image_id } = data
-    const golden = data?.golden ?? false
+    const { name, ticketNumber, bg_image_id, metadata } = data
+    const golden = (!!data?.sharedOnTwitter && !!data?.sharedOnLinkedin) ?? false
 
     if (assumeGolden && !golden) return await fetch(`${STORAGE_URL}/golden_no_meme.png`)
 
-    // Else, generate image ad upload to storage.
+    // Else, generate image and upload to storage.
     const BACKGROUND = {
       REG: {
-        BG: `${STORAGE_URL}/reg_bg.png`,
-        AI: `${STORAGE_URL}/tickets_bg/blurred/regular/png/reg_bg_${bg_image_id ?? '1'}.png`,
+        BG: `${STORAGE_URL}/backgrounds/regular.png`,
+        // AI: `${STORAGE_URL}/tickets_bg/blurred/regular/png/reg_bg_${bg_image_id ?? '1'}.png`,
         TICKET: `${STORAGE_URL}/reg_ticket.png`,
       },
       GOLD: {
-        BG: `${STORAGE_URL}/gold_bg.png`,
-        AI: `${STORAGE_URL}/tickets_bg/blurred/golden/png/gold_bg_${bg_image_id ?? '1'}.png`,
+        BG: `${STORAGE_URL}/backgrounds/golden.png`,
+        // AI: `${STORAGE_URL}/tickets_bg/blurred/golden/png/gold_bg_${bg_image_id ?? '1'}.png`,
         TICKET: `${STORAGE_URL}/gold_ticket.png`,
       },
     }
@@ -110,7 +114,7 @@ export async function handler(req: Request) {
               src={golden ? BACKGROUND['GOLD']['BG'] : BACKGROUND['REG']['BG']}
             />
             {/* Background ai  */}
-            <img
+            {/* <img
               width="1027"
               height="524"
               style={{
@@ -122,7 +126,7 @@ export async function handler(req: Request) {
                 zIndex: '-8000',
               }}
               src={golden ? BACKGROUND['GOLD']['AI'] : BACKGROUND['REG']['AI']}
-            />
+            /> */}
             {/* Background ticket  */}
             <img
               width="1089"
@@ -255,28 +259,31 @@ export async function handler(req: Request) {
         }
       )
     if (storageError) throw new Error(`storageError: ${storageError.message}`)
-    // Generate image for gallery
-    fetch('https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket-gallery', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9idWxkYW5ycHRsb2t0eGNmZnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njk3MjcwMTIsImV4cCI6MTk4NTMwMzAxMn0.SZLqryz_-stF8dgzeVXmzZWPOqdOrBwqJROlFES8v3I',
-      },
-      body: JSON.stringify({
-        username,
-        name,
-        ticketNumber,
-        bg_image_id,
-        golden,
-      }),
-    })
 
-    return await fetch(
-      `${STORAGE_URL}/tickets/${
-        golden ? 'golden' : 'regular'
-      }/${BUCKET_FOLDER_VERSION}/${username}.png`
-    )
+    // return generatedImage
+
+    // Generate image for gallery
+    // fetch('https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket-gallery', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization:
+    //       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9idWxkYW5ycHRsb2t0eGNmZnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njk3MjcwMTIsImV4cCI6MTk4NTMwMzAxMn0.SZLqryz_-stF8dgzeVXmzZWPOqdOrBwqJROlFES8v3I',
+    //   },
+    //   body: JSON.stringify({
+    //     username,
+    //     name,
+    //     ticketNumber,
+    //     bg_image_id,
+    //     golden,
+    //   }),
+    // })
+
+    // return await fetch(
+    //   `${STORAGE_URL}/tickets/${
+    //     golden ? 'golden' : 'regular'
+    //   }/${BUCKET_FOLDER_VERSION}/${username}.png`
+    // )
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

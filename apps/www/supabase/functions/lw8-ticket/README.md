@@ -9,7 +9,7 @@ Generate Open Graph images with Deno and Supabase Edge Functions and cache the g
 ## Run locally
 
 ```bash
-supabase functions serve --no-verify-jwt
+supabase functions serve lw8-ticket --no-verify-jwt
 ```
 
 Navigate to http://localhost:54321/functions/v1/lw8-ticket?username=thorwebdev
