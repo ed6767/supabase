@@ -85,8 +85,8 @@ export default function TicketsGrid({ loadedUsers, isLoading, pageCount, offset 
               },
             }}
           >
-            <div className="absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-b from-[#ffffff60] to-[#ffffff10] p-[1px] overflow-hidden">
-              <div className="absolute inset-[1px] rounded-lg sm:rounded-xl bg-gradient-to-b from-[#3d3c3c] to-[#2f2e2e]" />
+            <div className="absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-b from-[#58585820] to-[#ffffff10] p-[1px] overflow-hidden">
+              <div className="absolute inset-[1px] rounded-lg sm:rounded-xl bg-gradient-to-b from-[#1c1c1c] to-[#121212]" />
             </div>
           </motion.div>
         ))}

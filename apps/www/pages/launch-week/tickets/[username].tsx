@@ -1,16 +1,17 @@
+import { useEffect, useState } from 'react'
 import { NextSeo } from 'next-seo'
 import { GetStaticProps, GetStaticPaths } from 'next'
+import Image from 'next/image'
 import Error from 'next/error'
 import DefaultLayout from '~/components/Layouts/Default'
 import SectionContainer from '~/components/Layouts/SectionContainer'
 import TicketContainer from '~/components/LaunchWeek/8/Ticket/TicketContainer'
 import { SITE_URL } from '~/lib/constants'
 import { Session, SupabaseClient, createClient } from '@supabase/supabase-js'
-import { useEffect, useState } from 'react'
 import LaunchWeekPrizeSection from '~/components/LaunchWeek/8/LaunchWeekPrizeSection'
 // import TicketBrickWall from '~/components/LaunchWeek/8/Ticket/TicketBrickWall'
 import { PageState, ConfDataContext, UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
-import CTABanner from '../../../components/CTABanner'
+import CTABanner from '~/components/CTABanner'
 import { useTheme } from 'common/Providers'
 
 interface Props {
@@ -91,19 +92,29 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
       >
         <DefaultLayout>
           <div className="-mt-[65px]">
-            <div className="relative pt-20">
+            <div className="relative">
               <div className="relative z-10">
                 <SectionContainer className="flex flex-col justify-around items-center gap-2 md:gap-4 !px-2 !mx-auto md:min-h-[auto]">
-                  {/* <LaunchWeekLogoHeader /> */}
-                  {supabase && (
-                    <TicketContainer
-                      user={user}
-                      referrals={user.referrals ?? 0}
-                      supabase={supabase}
-                      sharePage
-                    />
-                  )}
+                  <div className="pt-12 lg:pt-24">
+                    {supabase && (
+                      <TicketContainer
+                        user={user}
+                        referrals={user.referrals ?? 0}
+                        supabase={supabase}
+                        sharePage
+                      />
+                    )}
+                  </div>
                 </SectionContainer>
+                <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">
+                  <Image
+                    src="/images/launchweek/8/LW8-gradient.png"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="top"
+                    priority
+                  />
+                </div>
               </div>
             </div>
             <SectionContainer className="!pt-8">

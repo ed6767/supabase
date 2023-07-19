@@ -1,9 +1,9 @@
+import { useState } from 'react'
 import styles from './ticket-visual.module.css'
 import TicketProfile from './TicketProfile'
 import TicketNumber from './TicketNumber'
 import useConfData, { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import TicketHeader from './TicketHeader'
-import { useState } from 'react'
 import Image from 'next/image'
 import TicketForm from './TicketForm'
 import TicketFooter from './TicketFooter'
@@ -28,11 +28,9 @@ export default function TicketVisual({
 
   const ticketBg = {
     regular: {
-      image: `${storageBaseFilepath}/blurred/regular/jpg/reg_bg_${bgImageId}.jpg`,
       background: `/images/launchweek/8/ticket-bg/regular.png`,
     },
     golden: {
-      image: `${storageBaseFilepath}/blurred/golden/jpg/gold_bg_${bgImageId}.jpg`,
       background: `/images/launchweek/8/ticket-bg/golden.png`,
     },
   }
@@ -64,7 +62,7 @@ export default function TicketVisual({
             </div>
             <TicketFooter />
             <TicketNumber number={ticketNumber} />
-            <div className="absolute z-0 inset-[1px] overflow-hidden rounded-xl">
+            <div className="absolute z-500 inset-[1px] overflow-hidden rounded-xl">
               <Image
                 src={CURRENT_TICKET_BG}
                 alt="ticket background"

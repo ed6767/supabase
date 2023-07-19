@@ -38,44 +38,44 @@ export default function LaunchWeekPrizeSection({
         <div className="pt-8 lg:pt-16 px-4">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 max-w-7xl mx-auto h-auto text-white">
             <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/seven/stickers.jpg"
-              imageWrapperClassName="w-full aspect-[1.9/1]"
-              animateFrom="down"
-              content={
-                <>
-                  <LabelBadge text="10 caps" className="block sm:hidden" />
-                  <h3 className="text-sm flex items-center gap-4">
-                    Supabase Cap <LabelBadge text="10 caps" className="hidden sm:block" />
-                  </h3>
-                </>
-              }
-            />
-            <LaunchWeekPrizeCard
               imageUrl="/images/launchweek/seven/tshirt.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"
               imgObjectPosition="right"
               content={
                 <>
-                  <LabelBadge text="25 shirts" className="block sm:hidden" />
+                  <LabelBadge text="25 pieces" className="block sm:hidden" />
                   <h3 className="text-sm flex items-center gap-4">
-                    Supabase T-shirt <LabelBadge text="25 shirts" className="hidden sm:block" />
+                    Supabase T-Shirt <LabelBadge text="25 pieces" className="hidden sm:block" />
                   </h3>
                 </>
               }
               animateFrom="down"
             />
             <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/seven/socks.jpg"
+              imageUrl="/images/launchweek/seven/deskmat.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"
               content={
                 <>
-                  <LabelBadge text="15 pairs" className="block sm:hidden" />
+                  <LabelBadge text="20 pieces" className="block sm:hidden" />
                   <h3 className="text-sm flex items-center gap-4">
-                    Supabase Socks <LabelBadge text="15 pairs" className="hidden sm:block" />
+                    Supabase Desk Mat <LabelBadge text="20 pieces" className="hidden sm:block" />
                   </h3>
                 </>
               }
               animateFrom="down"
+            />
+            <LaunchWeekPrizeCard
+              imageUrl="/images/launchweek/seven/cap.jpg"
+              imageWrapperClassName="w-full aspect-[1.9/1]"
+              animateFrom="down"
+              content={
+                <>
+                  <LabelBadge text="20 caps" className="block sm:hidden" />
+                  <h3 className="text-sm flex items-center gap-4">
+                    Supabase Cap <LabelBadge text="20 caps" className="hidden sm:block" />
+                  </h3>
+                </>
+              }
             />
             <LaunchWeekPrizeCard
               imageUrl="/images/launchweek/seven/stickers.jpg"
@@ -83,10 +83,10 @@ export default function LaunchWeekPrizeSection({
               animateFrom="down"
               content={
                 <>
-                  <LabelBadge text="200 packs" className="block sm:hidden" />
+                  <LabelBadge text="100 packs" className="block sm:hidden" />
                   <h3 className="text-sm flex items-center gap-4">
                     Supabase Sticker Pack{' '}
-                    <LabelBadge text="200 packs" className="hidden sm:block" />
+                    <LabelBadge text="100 packs" className="hidden sm:block" />
                   </h3>
                 </>
               }

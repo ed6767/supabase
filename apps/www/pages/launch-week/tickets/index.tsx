@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { NextSeo } from 'next-seo'
 import { GetServerSideProps } from 'next'
+import { NextSeo } from 'next-seo'
+import Image from 'next/image'
 import { Button } from 'ui'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -141,6 +142,15 @@ export default function TicketsPage({ users }: Props) {
               />
             </div>
           </SectionContainer>
+          <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">
+            <Image
+              src="/images/launchweek/8/LW8-gradient.png"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="top"
+              priority
+            />
+          </div>
         </div>
         <CTABanner className="!bg-[#020405] border-t-0" />
       </DefaultLayout>

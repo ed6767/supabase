@@ -76,7 +76,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
                 {
                   event: 'UPDATE',
                   schema: 'public',
-                  table: 'lw8_tickets',
+                  table: 'lw7_tickets',
                   filter: `username=eq.${username}`,
                 },
                 (payload: any) => {
