@@ -4,6 +4,8 @@ import { AdditiveBlending } from 'three'
 import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
 import Particle from './Particle'
 import useParticlesConfig from './hooks/useParticlesConfig'
+import { range } from 'lodash'
+import BackgroundParticle from './BackgroundParticle'
 
 const ParticlesCanvas = ({ users }: { users: any }) => {
   const isWindowUndefined = typeof window === 'undefined'
@@ -12,7 +14,8 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
   const canvasRef = React.useRef(null)
 
   const [animate, setAnimate] = useState<boolean>(true)
-  const { config, handleSetConfig, particles, setParticles } = useParticlesConfig(users)
+  const { config, handleSetConfig, particles, setParticles, isDebugMode } =
+    useParticlesConfig(users)
   const { supabase } = useConfData()
   const [realtimeChannel, setRealtimeChannel] = useState<ReturnType<
     (typeof supabase | any)['channel']
@@ -86,6 +89,17 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
       ),
       []
     )
+  const GlowMaterial = () =>
+    useMemo(
+      () => (
+        <meshPhysicalMaterial
+          color={config.colorGold}
+          metalness={35}
+          blending={config.particlesBlending ? AdditiveBlending : undefined}
+        />
+      ),
+      []
+    )
 
   return (
     <Canvas
@@ -104,7 +118,44 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
             animate={animate}
           >
             <Geometry />
+            {isDebugMode ? (
+              config.showGlowMaterial ? (
+                <GlowMaterial />
+              ) : (
+                <Material />
+              )
+            ) : !user.golden ? (
+              <GlowMaterial />
+            ) : (
+              <Material />
+            )}
+          </Particle>
+        ))}
+        {range(0, config.backgroundParticles).map((_: any, index) => (
+          <BackgroundParticle key={`bg-particle-${index}`} config={config} canvasRef={canvasRef}>
+            <Geometry />
             <Material />
+          </BackgroundParticle>
+        ))}
+        {particles?.map((user: any, index: number) => (
+          <Particle
+            key={`particle-${user.username ?? index}`}
+            user={user}
+            config={config}
+            animate={animate}
+          >
+            <Geometry />
+            {isDebugMode ? (
+              config.showGlowMaterial ? (
+                <GlowMaterial />
+              ) : (
+                <Material />
+              )
+            ) : !user.golden ? (
+              <GlowMaterial />
+            ) : (
+              <Material />
+            )}
           </Particle>
         ))}
       </group>

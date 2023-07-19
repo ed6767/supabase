@@ -45,17 +45,6 @@ export async function handler(req: Request) {
         .is('sharedOnLinkedIn', null)
     }
 
-    // Try to get image from Supabase Storage CDN.
-    let storageResponse: Response
-    storageResponse = await fetch(
-      `${STORAGE_URL}/tickets/golden/${BUCKET_FOLDER_VERSION}/${username}.png`
-    )
-    if (storageResponse.ok) return storageResponse
-    storageResponse = await fetch(
-      `${STORAGE_URL}/tickets/regular/${BUCKET_FOLDER_VERSION}/${username}.png`
-    )
-    if (!assumeGolden && storageResponse.ok) return storageResponse
-
     // Get ticket data
     const { data, error } = await supabaseAdminClient
       .from(LW_TABLE)
@@ -263,13 +252,13 @@ export async function handler(req: Request) {
         generatedTicketImage.body!,
         {
           contentType: 'image/png',
-          cacheControl: '31536000',
-          upsert: false,
+          // cacheControl: `${60 * 60 * 24 * 7}`,
+          cacheControl: `0`,
+          // Update cached og image, people might need to update info
+          upsert: true,
         }
       )
     if (storageError) throw new Error(`storageError: ${storageError.message}`)
-
-    // return generatedTicketImage
 
     // Generate og image
     fetch('https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket-og', {

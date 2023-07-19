@@ -119,7 +119,7 @@ export async function handler(req: Request) {
         geneartedOGImage.body!,
         {
           contentType: 'image/png',
-          cacheControl: '31536000',
+          cacheControl: '0',
           upsert: true,
         }
       )

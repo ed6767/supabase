@@ -16,19 +16,23 @@ let defaultConfig = {
   trailLength: 100,
   trailDecay: 450,
   color: 'white',
+  colorGold: '#b89d18',
   xThickness: 7,
-  xRandomnessFactor: 1.06,
+  xRandomnessFactor: 1.6,
   xRandomnessShape: 1.6,
   xRandomness: 5.7,
   yThickness: 20,
-  max_speed: 1.3,
-  min_speed: -0.3,
+  max_speed: 0.3,
+  min_speed: -0.4,
+  showGlowMaterial: false,
+  backgroundParticles: 30,
 }
 
 const useParticlesConfig = (users: any): any => {
   const isWindowUndefined = typeof window === 'undefined'
   if (isWindowUndefined) return null
   const hash = window.location.hash
+  const isDebugMode = hash.includes('#debug')
   const [particles, setParticles] = useState<any[]>(users)
 
   const [config, setConfig] = useState(defaultConfig)
@@ -38,7 +42,7 @@ const useParticlesConfig = (users: any): any => {
   }
 
   const init = async () => {
-    if (hash !== '#debug') return
+    if (!isDebugMode) return
     const dat = await import('dat.gui')
     const gui = new dat.GUI()
     const particlesFolder = gui.addFolder('Particles')
@@ -77,6 +81,17 @@ const useParticlesConfig = (users: any): any => {
       .step(0.05)
       .name('Light intensity')
       .onChange((value) => handleSetConfig('lightIntensity', value))
+    particlesFolder
+      .add(config, 'backgroundParticles')
+      .min(0)
+      .max(100)
+      .step(1)
+      .name('Background Particles')
+      .onChange((value) => handleSetConfig('backgroundParticles', value))
+    particlesFolder
+      .add(config, 'showGlowMaterial')
+      .name('Glow')
+      .onChange((value) => handleSetConfig('showGlowMaterial', value))
     particlesFolder
       .add(config, 'particlesBlending')
       .name('Blending')
@@ -151,46 +166,17 @@ const useParticlesConfig = (users: any): any => {
       .step(0.1)
       .name('Max speed')
       .onChange((value) => handleSetConfig('max_speed', value))
-    // trailFolder
-    //   .add(config, 'trails')
-    //   .min(0)
-    //   .max(10)
-    //   .step(1)
-    //   .name('Count')
-    //   .onChange((value) => handleSetConfig('trails', value))
-    // trailFolder
-    //   .add(config, 'trailWidth')
-    //   .min(0)
-    //   .max(100)
-    //   .step(0.1)
-    //   .name('Thickness')
-    //   .onChange((value) => handleSetConfig('trailWidth', value))
-    // trailFolder
-    //   .add(config, 'trailLength')
-    //   .min(1)
-    //   .max(100)
-    //   .step(0.1)
-    //   .name('Length')
-    //   .onChange((value) => handleSetConfig('trailLength', value))
-    // trailFolder
-    //   .add(config, 'trailDecay')
-    //   .min(1)
-    //   .max(1000)
-    //   .step(0.1)
-    //   .name('Decay')
-    //   .onChange((value) => handleSetConfig('trailLength', value))
 
     particlesFolder.open()
     shapeFolder.open()
     speedFolder.open()
-    // trailFolder.open()
   }
 
   useEffect(() => {
     init()
   }, [])
 
-  return { config, handleSetConfig, particles, setParticles }
+  return { config, handleSetConfig, particles, setParticles, isDebugMode }
 }
 
 export default useParticlesConfig
