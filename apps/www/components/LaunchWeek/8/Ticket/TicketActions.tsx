@@ -4,7 +4,7 @@ import { IconCheckCircle } from 'ui'
 import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
 import { useParams } from '~/hooks/useParams'
 import TicketForm from './TicketForm'
-import { TwitterShareButton, TwitterIcon } from 'next-share'
+import { TwitterShareButton, TwitterIcon, LinkedinShareButton } from 'next-share'
 
 type TicketGenerationState = 'default' | 'loading'
 
@@ -31,7 +31,7 @@ export default function TicketActions({
   const { userData } = useConfData()
   const tweetUrl = `https://twitter.com/intent/tweet?url=${permalink}&via=supabase&text=${encodedText}`
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${permalink}`
-  const downloadUrl = `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket-og?username=${encodeURIComponent(
+  const downloadUrl = `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket?username=${encodeURIComponent(
     username
   )}`
   const params = useParams()
@@ -53,6 +53,15 @@ export default function TicketActions({
     }
   }, [downloadUrl])
 
+  // const generateOG = () => {
+  //   // Prefetch ticket og image.
+  //   fetch(
+  //     `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket?username=${encodeURIComponent(
+  //       username ?? ''
+  //     )}`
+  //   ).catch((_) => {})
+  // }
+
   return (
     <div className="grid gap-1 grid-cols-1 sm:grid-cols-3">
       {!sharePage ? (
@@ -65,43 +74,14 @@ export default function TicketActions({
               Connect with Github
             </div>
           </div>
-          {/* <div
+          <div
             className={`rounded ${
               userData.sharedOnTwitter ? 'bg-[#E6E8EB] text-scale-500' : 'text-white'
-            }  text-scale-500 py-1 px-3 border border-[#3e3e3e] text-xs mb-1 transition-all ease-out hover:bg-[#dfe1e3]`}
-          > */}
-          <TwitterShareButton url={link} title={text}>
-            {/* <TwitterIcon size={32} round /> */}
-            {/* <button
-              href={tweetUrl}
-              // rel="noopener noreferrer prefetch"
-              // target="_blank"
-            > */}
-            <div
-              className={`rounded ${
-                userData.sharedOnTwitter ? 'bg-[#E6E8EB] text-scale-500' : 'text-white'
-              }  text-scale-500 py-1 px-3 border border-[#3e3e3e] text-xs mb-1 transition-all ease-out hover:bg-[#dfe1e3] w-full flex items-center justify-center gap-2 text-center ${
-                userData.sharedOnTwitter ? 'text-scale-500' : 'text-white hover:text-scale-500'
-              }`}
-            >
-              {userData.sharedOnTwitter && (
-                <div className="text-scale-900">
-                  <IconCheckCircle size={10} strokeWidth={1} />
-                </div>
-              )}
-              Share on Twitter
-            </div>
-            {/* </button> */}
-          </TwitterShareButton>
-          {/* </div> */}
-          {/* <a
-              href={tweetUrl}
-              rel="noopener noreferrer prefetch"
-              target="_blank"
-              className={`flex items-center justify-center gap-2 ${
-                userData.sharedOnTwitter ? 'text-scale-500' : 'text-white hover:text-scale-500'
-              }`}
-            >
+            }  text-scale-500 py-1 px-3 border border-[#3e3e3e] text-xs mb-1 transition-all ease-out hover:bg-[#dfe1e3] w-full flex items-center justify-center gap-2 text-center ${
+              userData.sharedOnTwitter ? 'text-scale-500' : 'text-white hover:text-scale-500'
+            }`}
+          >
+            <a href={tweetUrl} rel="noopener noreferrer prefetch" target="_blank">
               {userData.sharedOnTwitter && (
                 <div className="text-scale-900">
                   <IconCheckCircle size={10} strokeWidth={1} />
@@ -109,7 +89,7 @@ export default function TicketActions({
               )}
               Share on Twitter
             </a>
-          </div> */}
+          </div>
           <div
             className={`rounded ${
               userData.sharedOnLinkedIn ? 'bg-[#E6E8EB] text-scale-500' : 'text-white'

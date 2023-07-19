@@ -160,7 +160,7 @@ export default function TicketHome({ users }: Props) {
             </SectionContainer>
             {/* {users && <TicketBrickWall users={users} />} */}
           </div>
-          <CTABanner className="!bg-[#020405]" />
+          <CTABanner className="!bg-[#020405] border-t-0" />
         </DefaultLayout>
       </ConfDataContext.Provider>
     </>
@@ -170,7 +170,7 @@ export default function TicketHome({ users }: Props) {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   // fetch users for the TicketBrickWall
   const { data: users } = await supabaseAdmin!
-    .from('lw8_tickets_staging')
+    .from('lw8_tickets_golden')
     .select('id', { count: 'exact' })
 
   return {

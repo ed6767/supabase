@@ -27,7 +27,7 @@ const supabaseAdmin = createClient(
 )
 
 export default function UsernamePage({ user, users, ogImageUrl }: Props) {
-  const { username, ticketNumber, name } = user
+  const { username, ticketNumber, name, golden } = user
 
   const TITLE = `${name ? name + '’s' : 'Get your'} #SupaLaunchWeek Ticket`
   const DESCRIPTION = 'Supabase Launch Week 8 | 7–11 August 2023 | Generate your ticket. Win swag.'
@@ -111,7 +111,7 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
             </SectionContainer>
             {/* <TicketBrickWall users={users} /> */}
           </div>
-          <CTABanner className="!bg-[#020405]" />
+          <CTABanner className="!bg-[#020405] border-t-0" />
         </DefaultLayout>
       </ConfDataContext.Provider>
     </>
@@ -121,32 +121,42 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const username = params?.username?.toString() || null
   let user
-  let golden = false
-  let ogImageUrl
+  // let ogImageUrl
 
   // fetch users for the TicketBrickWall
-  const { data: users } = await supabaseAdmin!.from('lw8_tickets_staging').select().limit(17)
+  const { data: users } = await supabaseAdmin!.from('lw8_tickets_golden').select().limit(17)
+
+  fetch(
+    `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket?username=${encodeURIComponent(
+      username ?? ''
+    )}`
+  ).catch((_) => {})
+
+  console.log(username)
 
   // fetch a specific user
   if (username) {
     const { data } = await supabaseAdmin!
-      .from('lw8_tickets_staging')
-      .select('name, username, ticketNumber, bg_image_id, metadata')
+      .from('lw8_tickets_golden')
+      .select('name, username, ticketNumber, metadata, golden')
       .eq('username', username)
       .single()
 
+    console.log(user)
+
     user = data
-    // referrals = user?.referrals ?? 0
-    ogImageUrl = `https://obuldanrptloktxcffvn.functions.supabase.co/lw7-ticket-og?username=${encodeURIComponent(
-      username ?? ''
-    )}${golden ? '&golden=true' : ''}`
   }
+
+  const BUCKET_FOLDER_VERSION = 'v1'
+
+  const ogImageUrl = `https://obuldanrptloktxcffvn.supabase.co/storage/v1/object/public/images/lw8/og/${
+    user?.golden ? 'golden' : 'regular'
+  }/${BUCKET_FOLDER_VERSION}/${username}.png`
 
   return {
     props: {
       user: {
         ...user,
-        golden,
         username,
       },
       ogImageUrl,

@@ -35,7 +35,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
       const name = session.user.user_metadata.full_name
       const email = session.user.email
       supabase
-        .from('lw8_tickets_staging')
+        .from('lw8_tickets')
         .insert({ email, name, username, referred_by: router.query?.referral ?? null })
         .eq('email', email)
         .select()
@@ -44,8 +44,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
           // If error because of duplicate email, ignore and proceed, otherwise sign out.
           if (error && error?.code !== '23505') return supabase.auth.signOut()
           const { data } = await supabase
-            .from('lw8_tickets_staging')
-            // .from('lw8_tickets_golden')
+            .from('lw8_tickets_golden')
             .select('*')
             .eq('username', username)
             .single()
@@ -59,12 +58,6 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
 
           // Prefetch the twitter share URL to eagerly generate the page
           fetch(`/launch-week/tickets/${username}`).catch((_) => {})
-          // Prefetch ticket og image.
-          // fetc h(
-          //   `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket?username=${encodeURIComponent(
-          //     username ?? ''
-          //   )}`
-          // ).catch((_) => {})
 
           setPageState('ticket')
 
@@ -77,7 +70,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
                 {
                   event: 'UPDATE',
                   schema: 'public',
-                  table: 'lw8_tickets_staging',
+                  table: 'lw8_tickets',
                   filter: `username=eq.${username}`,
                 },
                 (payload: any) => {

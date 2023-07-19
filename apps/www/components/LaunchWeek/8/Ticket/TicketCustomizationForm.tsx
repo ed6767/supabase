@@ -19,7 +19,6 @@ const TicketCustomizationForm = ({ supabase, user }: Props) => {
   const [formState, setFormState] = useState<'idle' | 'saved' | 'saving' | 'error'>('idle')
   const IS_SAVING = formState === 'saving'
   const IS_SAVED = formState === 'saved'
-  const IS_EDITED = formData !== user.metadata
   const HAS_ERROR = formState === 'error'
 
   const handleInputChange = (name: string, value: string) => {
@@ -29,10 +28,10 @@ const TicketCustomizationForm = ({ supabase, user }: Props) => {
   const handleFormSubmit = async () => {
     setFormState('saving')
     const payload = { metadata: formData }
-    console.log('edited', IS_EDITED, formData, user)
+
     if (supabase) {
       await supabase
-        .from('lw8_tickets_staging')
+        .from('lw8_tickets')
         .update(payload)
         .eq('username', user.username)
         .then((res) => {

@@ -12,7 +12,7 @@ const font = fetch(new URL(FONT_URL, import.meta.url)).then((res) => res.arrayBu
 const mono_font = fetch(new URL(MONO_FONT_URL, import.meta.url)).then((res) => res.arrayBuffer())
 const BUCKET_FOLDER_VERSION = 'v1'
 
-const LW_TABLE = 'lw8_tickets_staging'
+const LW_TABLE = 'lw8_tickets_golden'
 
 export async function handler(req: Request) {
   const url = new URL(req.url)
@@ -59,13 +59,13 @@ export async function handler(req: Request) {
     // Get ticket data
     const { data, error } = await supabaseAdminClient
       .from(LW_TABLE)
-      .select('name, ticketNumber, bg_image_id, sharedOnTwitter, sharedOnLinkedIn, metadata')
+      .select('name, ticketNumber, sharedOnTwitter, sharedOnLinkedIn, metadata')
       .eq('username', username)
       .maybeSingle()
 
     if (error) console.log(error.message)
     if (!data) throw new Error(error?.message ?? 'user not found')
-    const { name, ticketNumber, bg_image_id, metadata } = data
+    const { name, ticketNumber, metadata } = data
 
     const golden = (!!data?.sharedOnTwitter && !!data?.sharedOnLinkedIn) ?? false
     if (assumeGolden && !golden) return await fetch(`${STORAGE_URL}/golden_no_meme.png`)

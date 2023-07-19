@@ -1,20 +1,19 @@
+import { useEffect, useRef, useState } from 'react'
 import { NextSeo } from 'next-seo'
 import { GetServerSideProps } from 'next'
-import DefaultLayout from '~/components/Layouts/Default'
-import SectionContainer from '~/components/Layouts/SectionContainer'
-import { SITE_ORIGIN, SITE_URL } from '~/lib/constants'
-import { createClient } from '@supabase/supabase-js'
-import { useEffect, useRef, useState } from 'react'
-import { LaunchWeekLogoHeader } from '~/components/LaunchWeek/7/LaunchSection/LaunchWeekLogoHeader'
-import { motion } from 'framer-motion'
-import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
-import LW7BgGraphic from '../../../components/LaunchWeek/7/LW7BgGraphic'
-import CTABanner from '../../../components/CTABanner'
-import { debounce } from 'lodash'
-import TicketsGrid from '../../../components/LaunchWeek/7/TicketsGrid'
 import { Button } from 'ui'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+
+import { SITE_ORIGIN, SITE_URL } from '~/lib/constants'
 import { useTheme } from 'common/Providers'
+
+import DefaultLayout from '~/components/Layouts/Default'
+import SectionContainer from '~/components/Layouts/SectionContainer'
+import { Session, SupabaseClient, createClient } from '@supabase/supabase-js'
+import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
+import CTABanner from '~/components/CTABanner'
+import TicketsGrid from '~/components/LaunchWeek/8/TicketsGrid'
 
 interface Props {
   users: UserData[]
@@ -43,7 +42,7 @@ export default function TicketsPage({ users }: Props) {
   const DESCRIPTION = 'Supabase Launch Week 8 | 7–11 August 2023'
   const OG_IMAGE = `${SITE_ORIGIN}/images/launchweek/8/lw8-og.jpg`
 
-  const { isDarkMode } = useTheme()
+  const { isDarkMode, toggleTheme } = useTheme()
   const [isLoading, setIsLoading] = useState(false)
   const [offset, setOffset] = useState(1)
   const [isLast, setIsLast] = useState(false)
@@ -57,7 +56,7 @@ export default function TicketsPage({ users }: Props) {
   const loadUsers = async (offset: number) => {
     const from = offset * PAGE_COUNT
     return await supabaseAdmin!
-      .from('lw7_tickets_golden')
+      .from('lw8_tickets_golden')
       .select('*')
       .range(from, from + PAGE_COUNT - 1)
       .order('createdAt', { ascending: false })
@@ -82,14 +81,11 @@ export default function TicketsPage({ users }: Props) {
   }
 
   useEffect(() => {
-    document.body.className = '!dark bg-[#1C1C1C]'
-
-    const handleDebouncedScroll = debounce(() => !isLast && handleScroll(), 200)
-    window.addEventListener('scroll', handleDebouncedScroll)
-
+    toggleTheme(true)
+    document.body.className = 'dark bg-[#020405]'
     return () => {
-      document.body.className = isDarkMode ? 'dark' : 'light'
-      window.removeEventListener('scroll', handleDebouncedScroll)
+      document.body.className = ''
+      isDarkMode ? toggleTheme(true) : toggleTheme(false)
     }
   }, [])
 
@@ -109,17 +105,8 @@ export default function TicketsPage({ users }: Props) {
         }}
       />
       <DefaultLayout>
-        <div className="bg-[#1C1C1C] -mt-[65px]">
-          <div className="relative bg-lw7 pt-20">
-            <div className="relative z-10">
-              <SectionContainer className="flex flex-col justify-around items-center !py-4 md:!py-8 gap-2 md:gap-4 !px-2 !mx-auto h-auto">
-                <LaunchWeekLogoHeader />
-              </SectionContainer>
-              <LW7BgGraphic />
-            </div>
-            <div className="bg-lw7-gradient absolute inset-0 z-0" />
-          </div>
-          <SectionContainer className="z-10 -mt-60 md:-mt-[500px] max-w-none overflow-hidden">
+        <div className="">
+          <SectionContainer className="z-10 max-w-none overflow-hidden">
             <div className="text-center relative z-10 text-white mb-4 lg:mb-10">
               <motion.div
                 className="max-w-[38rem] mx-auto px-4 flex flex-col items-center gap-4"
@@ -128,19 +115,17 @@ export default function TicketsPage({ users }: Props) {
                 viewport={{ once: true, margin: '-150px' }}
                 transition={{ type: 'spring', bounce: 0, delay: 0.2 }}
               >
-                <h2 className="text-4xl">
-                  Check out <span className="gradient-text-pink-500">all the tickets</span>
-                </h2>
+                <h2 className="text-4xl">Launch Week 8 tickets</h2>
                 <p className="radial-gradient-text-scale-500">
-                  Join us on April 16th for Launch Week 7's final day{' '}
+                  Join us on August 11th for Launch Week 8's final day{' '}
                   <br className="hidden md:inline-block" /> and find out if you are one of the lucky
-                  winners. Get sharing!
+                  winners.
                 </p>
                 <div className="mt-1">
                   <Link href="/launch-week">
                     <a>
                       <Button type="outline" size="medium">
-                        Go to Launch Week 7
+                        Go to Launch Week 8
                       </Button>
                     </a>
                   </Link>
@@ -157,7 +142,7 @@ export default function TicketsPage({ users }: Props) {
             </div>
           </SectionContainer>
         </div>
-        <CTABanner />
+        <CTABanner className="!bg-[#020405] border-t-0" />
       </DefaultLayout>
     </>
   )
@@ -165,7 +150,7 @@ export default function TicketsPage({ users }: Props) {
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const { data: users } = await supabaseAdmin!
-    .from('lw7_tickets_golden')
+    .from('lw8_tickets_golden')
     .select('*')
     .order('createdAt', { ascending: false })
     .limit(20)

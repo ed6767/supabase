@@ -19,7 +19,7 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
   > | null>(null)
 
   const loadUsers = async () => {
-    return await supabase!.from('lw8_tickets_staging').select('id', { count: 'exact' })
+    return await supabase!.from('lw8_tickets_golden').select('id', { count: 'exact' })
   }
 
   // Update particles live when new tickets are generated
@@ -32,7 +32,7 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
           {
             event: 'INSERT',
             schema: 'public',
-            table: 'lw8_tickets_staging',
+            table: 'lw8_tickets_golden',
           },
           async () => {
             const { data: users } = await loadUsers()
