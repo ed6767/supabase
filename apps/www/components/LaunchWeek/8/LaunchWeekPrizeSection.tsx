@@ -38,6 +38,19 @@ export default function LaunchWeekPrizeSection({
         <div className="pt-8 lg:pt-16 px-4">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 max-w-7xl mx-auto h-auto text-white">
             <LaunchWeekPrizeCard
+              imageUrl="/images/launchweek/seven/deskmat.jpg"
+              imageWrapperClassName="w-full aspect-[1.9/1]"
+              content={
+                <>
+                  <LabelBadge text="10 pieces" className="block sm:hidden" />
+                  <h3 className="text-sm flex items-center gap-4">
+                    Supabase Desk Mat <LabelBadge text="10 pieces" className="hidden sm:block" />
+                  </h3>
+                </>
+              }
+              animateFrom="down"
+            />
+            <LaunchWeekPrizeCard
               imageUrl="/images/launchweek/seven/tshirt.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"
               imgObjectPosition="right"
@@ -51,19 +64,7 @@ export default function LaunchWeekPrizeSection({
               }
               animateFrom="down"
             />
-            <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/seven/deskmat.jpg"
-              imageWrapperClassName="w-full aspect-[1.9/1]"
-              content={
-                <>
-                  <LabelBadge text="20 pieces" className="block sm:hidden" />
-                  <h3 className="text-sm flex items-center gap-4">
-                    Supabase Desk Mat <LabelBadge text="20 pieces" className="hidden sm:block" />
-                  </h3>
-                </>
-              }
-              animateFrom="down"
-            />
+
             <LaunchWeekPrizeCard
               imageUrl="/images/launchweek/seven/cap.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"

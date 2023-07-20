@@ -62,7 +62,7 @@ const Announcement = ({
       >
         {!isLaunchWeekSection && (
           <div
-            className="absolute z-30 right-4 flex h-full items-center opacity-100 transition-opacity hover:opacity-100"
+            className="absolute z-30 right-4 flex h-full items-center opacity-100 text-white transition-opacity hover:opacity-100"
             onClick={handleClose}
           >
             <IconX size={16} />

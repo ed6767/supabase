@@ -10,23 +10,23 @@ interface CountdownWidgetProps {
 function CountdownWidget({ days, hours, minutes, seconds }: CountdownWidgetProps) {
   return (
     <div className="flex gap-1 items-center">
-      {days && (
+      {days !== undefined && (
         <>
           <CountdownStep value={days} unit="d" /> :
         </>
       )}
-      {hours && (
+      {hours !== undefined && (
         <>
           <CountdownStep value={hours} unit="h" /> :
         </>
       )}
-      {minutes && (
+      {minutes !== undefined && (
         <>
           <CountdownStep value={minutes} unit="m" />
-          {seconds && ' :'}
+          {seconds !== undefined && ' :'}
         </>
       )}
-      {seconds && <CountdownStep value={seconds} unit="s" />}
+      {seconds !== undefined && <CountdownStep value={seconds} unit="s" />}
     </div>
   )
 }

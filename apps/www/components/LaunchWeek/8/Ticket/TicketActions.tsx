@@ -28,7 +28,7 @@ export default function TicketActions({
   const permalink = encodeURIComponent(link)
   const text = golden ? TWEET_TEXT_GOLDEN : TWEET_TEXT
   const encodedText = encodeURIComponent(text)
-  const { userData } = useConfData()
+  const { userData, supabase } = useConfData()
   const tweetUrl = `https://twitter.com/intent/tweet?url=${permalink}&via=supabase&text=${encodedText}`
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${permalink}`
   const downloadUrl = `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket?username=${encodeURIComponent(
@@ -36,6 +36,7 @@ export default function TicketActions({
   )}`
   const params = useParams()
   const sharePage = params.username
+  const LW_TABLE = 'lw8_tickets'
 
   useEffect(() => {
     setImgReady(false)
@@ -53,14 +54,22 @@ export default function TicketActions({
     }
   }, [downloadUrl])
 
-  // const generateOG = () => {
-  //   // Prefetch ticket og image.
-  //   fetch(
-  //     `https://obuldanrptloktxcffvn.functions.supabase.co/lw8-ticket?username=${encodeURIComponent(
-  //       username ?? ''
-  //     )}`
-  //   ).catch((_) => {})
-  // }
+  const handleShare = async (social: 'twitter' | 'linkedin') => {
+    if (!supabase) return
+    if (social === 'twitter') {
+      await supabase
+        .from(LW_TABLE)
+        .update({ sharedOnTwitter: 'now' })
+        .eq('username', username)
+        .is('sharedOnTwitter', null)
+    } else if (social === 'linkedin') {
+      await supabase
+        .from(LW_TABLE)
+        .update({ sharedOnLinkedIn: 'now' })
+        .eq('username', username)
+        .is('sharedOnLinkedIn', null)
+    }
+  }
 
   return (
     <div className="grid gap-1 grid-cols-1 sm:grid-cols-3">
@@ -74,43 +83,40 @@ export default function TicketActions({
               Connect with Github
             </div>
           </div>
-          <div
-            className={`rounded ${
-              userData.sharedOnTwitter ? 'bg-[#E6E8EB] text-scale-500' : 'text-white'
-            }  text-scale-500 py-1 px-3 border border-[#3e3e3e] text-xs mb-1 transition-all ease-out hover:bg-[#dfe1e3] w-full flex items-center justify-center gap-2 text-center ${
-              userData.sharedOnTwitter ? 'text-scale-500' : 'text-white hover:text-scale-500'
-            }`}
+          <a
+            onKeyUp={() => handleShare('twitter')}
+            href={tweetUrl}
+            rel="noopener noreferrer prefetch"
+            target="_blank"
+            className={[
+              `flex items-center justify-center gap-2 rounded text-scale-500 py-1 px-3 border border-[#3e3e3e] text-xs mb-1 transition-all ease-out hover:text-scale-100 hover:bg-[#dfe1e3]`,
+              userData.sharedOnTwitter ? 'bg-[#E6E8EB] text-scale-500' : 'text-white',
+            ].join(' ')}
           >
-            <a href={tweetUrl} rel="noopener noreferrer prefetch" target="_blank">
-              {userData.sharedOnTwitter && (
-                <div className="text-scale-900">
-                  <IconCheckCircle size={10} strokeWidth={1} />
-                </div>
-              )}
-              Share on Twitter
-            </a>
-          </div>
-          <div
-            className={`rounded ${
-              userData.sharedOnLinkedIn ? 'bg-[#E6E8EB] text-scale-500' : 'text-white'
-            }  text-scale-500 py-1 px-3 border border-[#3e3e3e] text-xs mb-1 transition-all ease-out hover:bg-[#dfe1e3]`}
+            {userData.sharedOnTwitter && (
+              <div className="text-scale-900">
+                <IconCheckCircle size={10} strokeWidth={1.5} />
+              </div>
+            )}
+            Share on Twitter
+          </a>
+          <a
+            onKeyUp={() => handleShare('linkedin')}
+            href={linkedInUrl}
+            rel="noopener noreferrer prefetch"
+            target="_blank"
+            className={[
+              `flex items-center justify-center gap-2 rounded text-scale-500 py-1 px-3 border border-[#3e3e3e] text-xs mb-1 transition-all ease-out hover:text-scale-100 hover:bg-[#dfe1e3]`,
+              userData.sharedOnLinkedIn ? 'bg-[#E6E8EB] text-scale-500' : 'text-white',
+            ].join(' ')}
           >
-            <a
-              href={linkedInUrl}
-              rel="noopener noreferrer prefetch"
-              target="_blank"
-              className={`flex items-center justify-center gap-2 ${
-                userData.sharedOnLinkedIn ? 'text-scale-500' : 'text-white hover:text-scale-500'
-              }`}
-            >
-              {userData.sharedOnLinkedIn && (
-                <div className="text-scale-900">
-                  <IconCheckCircle size={10} strokeWidth={1} />
-                </div>
-              )}
-              Share on Linkedin
-            </a>
-          </div>
+            {userData.sharedOnLinkedIn && (
+              <div className="text-scale-900">
+                <IconCheckCircle size={10} strokeWidth={1.5} />
+              </div>
+            )}
+            Share on Linkedin
+          </a>
         </>
       ) : (
         !username && (

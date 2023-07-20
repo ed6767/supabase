@@ -15,7 +15,7 @@ function CountdownButton({ children, dest }: PropsWithChildren<CountdownButtonPr
   return (
     <a
       href={dest}
-      className="bg-white text-xs px-1.5 md:px-2.5 py-1 rounded-full text-scale-100 shadow-none hover:shadow-mg cursor-pointer"
+      className="bg-white text-xs px-1.5 md:px-2.5 py-1 rounded-full text-black shadow-none hover:shadow-mg cursor-pointer"
     >
       {children}
     </a>

@@ -5,13 +5,13 @@ import Image from 'next/image'
 import { Button } from 'ui'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { createClient } from '@supabase/supabase-js'
 
 import { SITE_ORIGIN, SITE_URL } from '~/lib/constants'
 import { useTheme } from 'common/Providers'
 
 import DefaultLayout from '~/components/Layouts/Default'
 import SectionContainer from '~/components/Layouts/SectionContainer'
-import { Session, SupabaseClient, createClient } from '@supabase/supabase-js'
 import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import CTABanner from '~/components/CTABanner'
 import TicketsGrid from '~/components/LaunchWeek/8/TicketsGrid'
@@ -107,7 +107,7 @@ export default function TicketsPage({ users }: Props) {
       />
       <DefaultLayout>
         <div className="">
-          <SectionContainer className="z-10 max-w-none overflow-hidden">
+          <SectionContainer className="z-10">
             <div className="text-center relative z-10 text-white mb-4 lg:mb-10">
               <motion.div
                 className="max-w-[38rem] mx-auto px-4 flex flex-col items-center gap-4"
@@ -135,7 +135,13 @@ export default function TicketsPage({ users }: Props) {
             </div>
             <div ref={ref}>
               <TicketsGrid
-                loadedUsers={loadedUsers}
+                loadedUsers={[
+                  ...loadedUsers,
+                  ...loadedUsers,
+                  ...loadedUsers,
+                  ...loadedUsers,
+                  ...loadedUsers,
+                ]}
                 isLoading={isLoading}
                 pageCount={PAGE_COUNT}
                 offset={offset}

@@ -21,14 +21,14 @@ const Hero = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative -mt-[65px]">
       <SectionContainer className="py-12 md:py-16 lg:py-20">
         <div className="relative">
           <div className="mx-auto">
             <div className="mx-auto max-w-2xl lg:col-span-6 lg:flex lg:items-center justify-center text-center">
               <div
                 className={[
-                  'appear-first lg:h-auto pt-40 lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
+                  'appear-first lg:h-auto pt-[250px] lg:pt-[300px] lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
                   styles['hero-text'],
                 ].join(' ')}
               >
@@ -74,8 +74,8 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        <div className="absolute -top-10 left-0 right-0 h-[350px] md:h-[400px] z-0">
-          <ParticlesCanvas users={range(0, 20)} />
+        <div className="absolute -top-2 md:top-4 -left-10 -right-10 md:left-0 md:right-0 h-[500px] lg:h-[600px] z-0">
+          <ParticlesCanvas users={range(0, 60)} />
         </div>
       </SectionContainer>
       <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">

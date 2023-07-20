@@ -23,14 +23,16 @@ import * as supabaseLogoWordmarkWhite from 'common/assets/images/supabase-logo-w
 
 const Nav = () => {
   const { isDarkMode } = useTheme()
-  const { pathname } = useRouter()
+  const router = useRouter()
   const [open, setOpen] = useState(false)
   const [openProduct, setOpenProduct] = useState(false)
   const [openDevelopers, setOpenDevelopers] = useState(false)
   const isLoggedIn = useIsLoggedIn()
 
-  const isLaunchWeekPage = pathname.includes('launch-week')
-  const showLaunchWeekNavMode = isLaunchWeekPage && !open && !openProduct && !openDevelopers
+  const isHomePage = router.pathname === '/'
+  const isLaunchWeekPage = router.pathname.includes('launch-week')
+  const showLaunchWeekNavMode =
+    isLaunchWeekPage || (isHomePage && !open && !openProduct && !openDevelopers)
 
   React.useEffect(() => {
     if (open) {
@@ -226,19 +228,21 @@ const Nav = () => {
                   <Link href="/" as="/">
                     <a className="block w-auto h-6">
                       <Image
-                        src={
-                          isLaunchWeekPage
-                            ? supabaseLogoWordmarkWhite
-                            : isDarkMode
-                            ? supabaseLogoWordmarkDark
-                            : supabaseLogoWordmarkLight
-                        }
+                        src={isDarkMode ? supabaseLogoWordmarkDark : supabaseLogoWordmarkLight}
                         width={124}
                         height={24}
                         alt="Supabase Logo"
                       />
                     </a>
                   </Link>
+
+                  {isLaunchWeekPage && (
+                    <Link href="/launch-week" as="/launch-week">
+                      <a className="hidden ml-2 xl:block font-mono text-sm uppercase leading-4">
+                        Launch Week
+                      </a>
+                    </Link>
+                  )}
                 </div>
                 <div className="hidden pl-4 sm:ml-6 sm:space-x-4 lg:flex">
                   <FlyOutNavButton

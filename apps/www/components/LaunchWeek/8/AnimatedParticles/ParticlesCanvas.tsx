@@ -53,7 +53,7 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
     }
   }, [])
 
-  // stop animation if canvas if not in viewport
+  // stop animation if canvas if is not in viewport
   // to avoid unneccessary computations
   const handleScroll = () => {
     if (canvasRef.current && typeof window !== 'undefined') {
@@ -104,11 +104,11 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
     <Canvas
       ref={canvasRef}
       dpr={[1, 2]}
-      camera={{ fov: 75, position: [0, 0, 450] }}
+      camera={{ fov: 75, position: [0, 0, 500] }}
       className="relative z-30"
     >
       <ambientLight intensity={config.lightIntensity} />
-      <group position={[0, 30, 0]}>
+      <group position={[0, 70, 0]} scale={[0.9, 0.9, 0.9]}>
         {particles?.map((user: any, index: number) => (
           <Particle
             key={`particle-${user.username ?? index}`}

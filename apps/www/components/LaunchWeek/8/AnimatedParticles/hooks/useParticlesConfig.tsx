@@ -18,12 +18,15 @@ let defaultConfig = {
   color: 'white',
   colorGold: '#b89d18',
   xThickness: 7,
-  xRandomnessFactor: 1.6,
-  xRandomnessShape: 1.6,
-  xRandomness: 5.7,
+  // xRandomnessFactor: 1.6,
+  // xRandomnessShape: 1.6,
+  // xRandomness: 5.7,
+  xRandomnessFactor: 2.3,
+  xRandomnessShape: 2.3,
+  xRandomness: 5,
   yThickness: 20,
-  max_speed: 0.3,
-  min_speed: -0.4,
+  max_speed: 0.1,
+  min_speed: -0.1,
   showGlowMaterial: false,
   backgroundParticles: 30,
 }
@@ -156,14 +159,14 @@ const useParticlesConfig = (users: any): any => {
       .add(config, 'min_speed')
       .min(-6)
       .max(6)
-      .step(0.1)
+      .step(0.01)
       .name('Min speed')
       .onChange((value) => handleSetConfig('min_speed', value))
     speedFolder
       .add(config, 'max_speed')
       .min(-6)
       .max(6)
-      .step(0.1)
+      .step(0.01)
       .name('Max speed')
       .onChange((value) => handleSetConfig('max_speed', value))
 

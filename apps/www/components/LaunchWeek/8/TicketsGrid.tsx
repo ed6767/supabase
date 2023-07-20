@@ -18,17 +18,16 @@ export default function TicketsGrid({ loadedUsers, isLoading, pageCount, offset 
     `${STORAGE_URL}/tickets/${
       isGold ? 'golden' : 'regular'
     }/${BUCKET_FOLDER_VERSION}/${username}.png`
-  const isMobile = useBreakpoint(768)
-  const isTablet = useBreakpoint(1024)
-
-  console.log('loadedUsers', loadedUsers)
+  const isMobile = useBreakpoint(1024)
+  const isTablet = useBreakpoint(1280)
+  const horizontalOffset = isMobile ? 8 : 20
 
   return (
     <div
-      className={['grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 py-12 relative'].join(' ')}
+      className={['grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 py-12 relative'].join(' ')}
     >
       {loadedUsers?.map((user, i) => {
-        const rowTickets = isMobile ? 2 : isTablet ? 3 : 5
+        const rowTickets = isMobile ? 2 : isTablet ? 3 : 4
         const divider = Math.floor(i / rowTickets)
         const isOddRow = divider % 2 === 0
         // Delay should be no more than pageCount for new loaded users
@@ -43,11 +42,15 @@ export default function TicketsGrid({ loadedUsers, isLoading, pageCount, offset 
           >
             <motion.a
               className="relative w-full p-[1px] rounded-lg sm:rounded-xl overflow-hidden hover:cursor-pointer bg-gradient-to-b from-[#58585860] to-[#ffffff10]"
-              initial={{ opacity: 0, y: 20, x: isOddRow ? 30 : -30 }}
+              initial={{
+                opacity: 0,
+                y: 20,
+                x: isOddRow ? horizontalOffset : -horizontalOffset,
+              }}
               animate={{
                 opacity: 1,
                 y: 0,
-                x: isOddRow ? 30 : -30,
+                x: isOddRow ? horizontalOffset : -horizontalOffset,
                 transition: {
                   duration: 0.4,
                   ease: [0.24, 0.25, 0.05, 1],
