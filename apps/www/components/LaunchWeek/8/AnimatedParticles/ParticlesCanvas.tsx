@@ -1,13 +1,13 @@
 import React, { useMemo, useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { AdditiveBlending } from 'three'
-import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
 import Particle from './Particle'
 import useParticlesConfig from './hooks/useParticlesConfig'
 import { range } from 'lodash'
 import BackgroundParticle from './BackgroundParticle'
+import { SupabaseClient } from '@supabase/supabase-js'
 
-const ParticlesCanvas = ({ users }: { users: any }) => {
+const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users: any }) => {
   const isWindowUndefined = typeof window === 'undefined'
   if (isWindowUndefined) return null
 
@@ -16,7 +16,6 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
   const [animate, setAnimate] = useState<boolean>(true)
   const { config, handleSetConfig, particles, setParticles, isDebugMode } =
     useParticlesConfig(users)
-  const { supabase } = useConfData()
   const [realtimeChannel, setRealtimeChannel] = useState<ReturnType<
     (typeof supabase | any)['channel']
   > | null>(null)
@@ -27,7 +26,7 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
 
   // Update particles live when new tickets are generated
   useEffect(() => {
-    if (supabase) {
+    if (!!supabase) {
       const channel = supabase
         .channel('lw8_tickets_changes')
         .on(
@@ -151,7 +150,7 @@ const ParticlesCanvas = ({ users }: { users: any }) => {
               ) : (
                 <Material />
               )
-            ) : !user.golden ? (
+            ) : user.golden ? (
               <GlowMaterial />
             ) : (
               <Material />

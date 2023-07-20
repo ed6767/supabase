@@ -1,14 +1,12 @@
-import classNames from 'classnames'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { useBreakpoint } from 'common/hooks/useBreakpoint'
+import CountdownComponent from './Countdown'
 
 export function LaunchWeekLogoHeader() {
-  const isMobile = useBreakpoint(640)
-
   return (
     <div className="flex flex-col gap-1 md:gap-2 items-center justify-end">
       <div className="opacity-0 !animate-[fadeIn_0.5s_cubic-bezier(0.25,0.25,0,1)_0.5s_both] flex flex-col items-center text-center gap-3">
+        <div className="">
+          <CountdownComponent />
+        </div>
         <h1 className="sr-only font-normal uppercase text-[28px] sm:text-[32px]">Launch week 8</h1>
         <p className="text-white radial-gradient-text-scale-600 text-lg sm:text-2xl">
           <span className="block">August 7th–11th, 2023</span>

@@ -3,11 +3,7 @@ import { PropsWithChildren } from 'react'
 import Countdown from 'react-countdown'
 import { AnnouncementProps } from './Announcement'
 import _announcement from './data/Announcement.json'
-
-interface CountdownStepProps {
-  value: string | number
-  unit: string
-}
+import CountdownWidget from '../../components/CountdownWidget/CountdownWidget'
 
 interface CountdownButtonProps {
   dest: string
@@ -15,22 +11,11 @@ interface CountdownButtonProps {
 
 const announcement = _announcement as AnnouncementProps
 
-function CountdownStep({ value, unit }: CountdownStepProps) {
-  return (
-    <div className="rounded-md p-[1px] overflow-hidden bg-gradient-to-b from-[#FFFFFF50] to-[#FFFFFF00]">
-      <div className="py-1 px-2 rounded-md leading-4 flex items-center justify-center bg-gradient-to-b from-[#9E44EF40] to-[#DBB8BF40] backdrop-blur-md">
-        <span className="m-0">{value}</span>
-        <span>{unit}</span>
-      </div>
-    </div>
-  )
-}
-
 function CountdownButton({ children, dest }: PropsWithChildren<CountdownButtonProps>) {
   return (
     <a
       href={dest}
-      className="bg-white text-xs px-1.5 md:px-2.5 py-1 rounded-full text-[#9E44EF] shadow-none hover:shadow-mg cursor-pointer"
+      className="bg-white text-xs px-1.5 md:px-2.5 py-1 rounded-full text-scale-100 shadow-none hover:shadow-mg cursor-pointer"
     >
       {children}
     </a>
@@ -42,12 +27,14 @@ function CountdownBanner() {
   const isLaunchWeekPage = pathname === '/launch-week'
   const isLaunchWeekSection = pathname.includes('launch-week')
 
+  if (isLaunchWeekPage) return null
+
   const renderer = ({ days, hours, minutes, seconds, completed }: any) => {
     if (completed) {
       // Render a completed state
       return (
         <div className="w-full flex gap-3 md:gap-6 items-center justify-center">
-          <p>Supabase Launch Week 7</p>
+          <p>Supabase Launch Week 8</p>
           <div>
             <CountdownButton dest="/launch-week">Explore</CountdownButton>
           </div>
@@ -63,13 +50,10 @@ function CountdownBanner() {
           ].join(' ')}
         >
           <p>
-            <span className="hidden md:inline">Supabase</span> Launch Week 7
+            <span className="hidden md:inline">Supabase</span> Launch Week 8
           </p>
           <div className="flex gap-1 items-center">
-            <CountdownStep value={days} unit="d" /> :
-            <CountdownStep value={hours} unit="h" /> :
-            <CountdownStep value={minutes} unit="m" /> :
-            <CountdownStep value={seconds} unit="s" />
+            <CountdownWidget days={days} hours={hours} minutes={minutes} seconds={seconds} />
           </div>
           {!isLaunchWeekPage && (
             <div className="hidden md:block">
@@ -82,7 +66,10 @@ function CountdownBanner() {
   }
 
   return (
-    <div className="w-full h-14 p-2 bg-gradient-to-r from-[#9E44EF] to-[#DBB8BF] bg-blue-300 flex items-center justify-center text-white">
+    <div
+      className="relative w-full h-14 p-2 bg-gradient-to-r from-[#9E44EF] to-[#DBB8BF] bg-blue-300 flex items-center justify-center text-white !bg-cover !bg-center"
+      style={{ background: 'url("/images/launchweek/8/banner.svg")' }}
+    >
       <Countdown date={new Date(announcement.launchDate)} renderer={renderer} />
     </div>
   )

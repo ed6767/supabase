@@ -7,10 +7,15 @@ import { Button, IconBookOpen } from 'ui'
 import SectionContainer from '~/components/Layouts/SectionContainer'
 import HeroFrameworks from './HeroFrameworks'
 import styles from './hero.module.css'
+import Image from 'next/image'
+import { range } from 'lodash'
+import ParticlesCanvas from '../LaunchWeek/8/AnimatedParticles/ParticlesCanvas'
+import { useBreakpoint } from 'common'
 
 const Hero = () => {
   const router = useRouter()
   const telemetryProps = useTelemetryProps()
+  const isMobile = useBreakpoint()
   const sendTelemetryEvent = async (event: TelemetryEvent) => {
     await Telemetry.sendEvent(event, telemetryProps, router)
   }
@@ -23,7 +28,7 @@ const Hero = () => {
             <div className="mx-auto max-w-2xl lg:col-span-6 lg:flex lg:items-center justify-center text-center">
               <div
                 className={[
-                  'appear-first lg:h-[50vh] lg:min-h-[300px] lg:max-h-[450px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
+                  'appear-first lg:h-auto pt-40 lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
                   styles['hero-text'],
                 ].join(' ')}
               >
@@ -63,12 +68,26 @@ const Hero = () => {
                     </a>
                   </Link>
                 </div>
+
                 <HeroFrameworks className="mt-4 lg:mt-6" />
               </div>
             </div>
           </div>
         </div>
+        <div className="absolute -top-10 left-0 right-0 h-[350px] md:h-[400px] z-0">
+          <ParticlesCanvas users={range(0, 20)} />
+        </div>
       </SectionContainer>
+      <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">
+        <Image
+          src="/images/launchweek/8/LW8-gradient.png"
+          layout="fill"
+          objectFit={isMobile ? 'cover' : 'contain'}
+          objectPosition="top"
+          priority
+        />
+      </div>
+      <div className="absolute top-0 left-0 right-0 h-screen bg-gradient-to-b from-[#020405] to-transparent -z-10" />
       <div className="w-1/2 container mx-auto h-px bg-gradient-to-r from-transparent via-scale-600 to-transparent" />
     </div>
   )

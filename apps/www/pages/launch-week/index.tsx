@@ -1,18 +1,19 @@
 import { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { createClient, Session, SupabaseClient } from '@supabase/supabase-js'
-import { PageState, ConfDataContext, UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import { SITE_ORIGIN, SITE_URL } from '~/lib/constants'
 
+import { PageState, ConfDataContext, UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import DefaultLayout from '~/components/Layouts/Default'
 import SectionContainer from '~/components/Layouts/SectionContainer'
+import { LaunchWeekLogoHeader } from '~/components/LaunchWeek/8/LaunchWeekLogoHeader'
+import CountdownComponent from '~/components/LaunchWeek/8/Countdown'
 
 import { useTheme } from 'common/Providers'
-import Image from 'next/image'
-import { LaunchWeekLogoHeader } from '../../components/LaunchWeek/8/LaunchWeekLogoHeader'
 
 const AnimatedParticles = dynamic(
   () => import('~/components/LaunchWeek/8/AnimatedParticles/ParticlesCanvas')
@@ -129,7 +130,7 @@ export default function TicketHome({ users }: Props) {
                     <LaunchWeekLogoHeader />
                   </div>
                   <div className="absolute inset-0 z-0">
-                    <AnimatedParticles users={users} />
+                    {supabase && <AnimatedParticles supabase={supabase} users={users} />}
                   </div>
                 </SectionContainer>
                 <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">
