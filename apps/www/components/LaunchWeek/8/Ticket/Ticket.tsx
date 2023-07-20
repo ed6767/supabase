@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import styles from './ticket-visual.module.css'
 import TicketProfile from './TicketProfile'
 import TicketNumber from './TicketNumber'
-import useConfData, { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
+import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
 import TicketHeader from './TicketHeader'
 import Image from 'next/image'
 import TicketForm from './TicketForm'
@@ -21,10 +20,6 @@ export default function TicketVisual({
   setTicketGenerationState,
 }: Props) {
   const { username, golden = false, bg_image_id: bgImageId, ticketNumber } = user
-  const { session } = useConfData()
-  const [imageIsLoading, setImageIsLoading] = useState(true)
-
-  const storageBaseFilepath = `https://obuldanrptloktxcffvn.supabase.co/storage/v1/object/public/images/lw7/tickets_bg`
 
   const ticketBg = {
     regular: {
@@ -44,14 +39,13 @@ export default function TicketVisual({
         className={[
           styles.visual,
           golden ? styles['visual--gold'] : '',
-          // session ? styles['visual--logged-in'] : '',
           !golden && 'overflow-hidden',
-          'flex relative flex-col justify-between w-full aspect-[1.935/1] bg-gradient-to-b from-[#ffffff80] to-[#ffffff20] before:rounded-2xl box-border backdrop-blur-md rounded-xl',
+          'flex relative flex-col justify-between w-full aspect-[1/1.6] md:aspect-[1.935/1] bg-gradient-to-b from-[#ffffff80] to-[#ffffff20] before:rounded-[13px] box-border backdrop-blur-md rounded-xl',
         ].join(' ')}
       >
         {username ? (
-          <div className="absolute inset-0 h-[calc(100%-100px)] z-10 flex flex-col items-center justify-between w-full md:h-full flex-1 md:pl-8 md:pr-[15%] overflow-hidden">
-            <TicketHeader />
+          <div className="absolute inset-0 h-full px-4 pb-6 z-10 flex flex-col items-center justify-between w-full md:h-full flex-1 md:pb-0 md:pl-8 md:pr-[15%] overflow-hidden">
+            <TicketHeader golden={golden} />
             <div className="flex-1 w-full h-full md:h-auto flex py-6 md:py-4 flex-col justify-center">
               <TicketProfile
                 user={user}
@@ -61,7 +55,7 @@ export default function TicketVisual({
               />
             </div>
             <TicketFooter />
-            <TicketNumber number={ticketNumber} />
+            <TicketNumber number={ticketNumber} golden={golden} />
             <div className="absolute z-500 inset-[1px] overflow-hidden rounded-xl">
               <Image
                 src={CURRENT_TICKET_BG}

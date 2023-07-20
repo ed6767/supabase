@@ -27,18 +27,16 @@
 }
 
 .visual--gold {
-  background: radial-gradient(#fcdf9d, #dbb333);
+  background: radial-gradient(#fcdf9d50, #dbb33340);
 }
 
 .visual--gold::before {
-  /* @apply border border-gold-600 */
   content: ' ';
   position: absolute;
   inset: 0;
-  filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 6px #d99f0c) drop-shadow(0 0 9px #dbb333);
-  background: radial-gradient(#fcdf9d, #dbb333);
-  border: 1px solid rgba(255, 255, 0, 0.629);
-  /* animation: opacity-pulse 2s ease-in-out infinite alternate; */
+  filter: drop-shadow(0 0 60px #fcdf9d30);
+  background: radial-gradient(#fcdf9d50, #dbb333);
+  border: 1px solid #dbb333;
 }
 
 @keyframes opacity-pulse {

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Telemetry, { TelemetryEvent } from '~/lib/telemetry'
 import { useTelemetryProps } from 'common/hooks/useTelemetryProps'
 import gaEvents from '~/lib/gaEvents'
-import { Button, IconBookOpen } from 'ui'
+import { Badge, Button, IconArrowRight, IconBookOpen } from 'ui'
 import SectionContainer from '~/components/Layouts/SectionContainer'
 import HeroFrameworks from './HeroFrameworks'
 import styles from './hero.module.css'
@@ -11,14 +11,23 @@ import Image from 'next/image'
 import { range } from 'lodash'
 import ParticlesCanvas from '../LaunchWeek/8/AnimatedParticles/ParticlesCanvas'
 import { useBreakpoint } from 'common'
+import { useEffect, useState } from 'react'
 
 const Hero = () => {
   const router = useRouter()
+  const [showAnnouncement, setShowAnnouncement] = useState(false)
   const telemetryProps = useTelemetryProps()
   const isMobile = useBreakpoint()
   const sendTelemetryEvent = async (event: TelemetryEvent) => {
     await Telemetry.sendEvent(event, telemetryProps, router)
   }
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const lw8AnnouncementKey = window.localStorage.getItem('announcement_SupabaseLaunchWeek8')
+      setShowAnnouncement(!!lw8AnnouncementKey)
+    }
+  }, [showAnnouncement])
 
   return (
     <div className="relative -mt-[65px]">
@@ -28,11 +37,25 @@ const Hero = () => {
             <div className="mx-auto max-w-2xl lg:col-span-6 lg:flex lg:items-center justify-center text-center">
               <div
                 className={[
-                  'appear-first lg:h-auto pt-[250px] lg:pt-[300px] lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
+                  'relative z-10 appear-first lg:h-auto pt-[250px] lg:pt-[300px] lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
                   styles['hero-text'],
                 ].join(' ')}
               >
-                <div>
+                <div className="flex flex-col items-center">
+                  {showAnnouncement && (
+                    <Link href="/launch-week">
+                      <a className="group w-auto rounded-full p-1 mb-6 mt-8 md:mb-10 bg-gradient-to-b from-[#1b1f2124] to-[#02040550] hover:from-[#ffffff15] hover:to-[#ffffff05] transition-all backdrop-blur-lg border flex items-center justify-between gap-2 md:gap-4 text-scale-1100 hover:text-scale-1200 text-sm">
+                        <div className="text-scale-200 rounded-full bg-brand-900 px-3 py-1 flex items-center justify-center">
+                          Get you ticket
+                        </div>
+                        <span>Launch Week 8 - August 7th</span>
+                        <IconArrowRight
+                          size={16}
+                          className="transform mr-2 transition-transform translate-x-0 sm:-translate-x-1 group-hover:translate-x-0"
+                        />
+                      </a>
+                    </Link>
+                  )}
                   <h1 className="text-scale-1200 text-4xl sm:text-5xl sm:leading-none lg:text-7xl">
                     <span className="block text-[#F4FFFA00] bg-clip-text bg-gradient-to-b from-scale-1200 to-scale-1200 dark:to-scale-1100">
                       Build in a weekend

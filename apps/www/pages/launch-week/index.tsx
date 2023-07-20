@@ -11,7 +11,6 @@ import { PageState, ConfDataContext, UserData } from '~/components/LaunchWeek/ho
 import DefaultLayout from '~/components/Layouts/Default'
 import SectionContainer from '~/components/Layouts/SectionContainer'
 import { LaunchWeekLogoHeader } from '~/components/LaunchWeek/8/LaunchWeekLogoHeader'
-import CountdownComponent from '~/components/LaunchWeek/8/Countdown'
 
 import { useTheme } from 'common/Providers'
 
@@ -22,9 +21,7 @@ const TicketContainer = dynamic(() => import('~/components/LaunchWeek/8/Ticket/T
 const LaunchWeekPrizeSection = dynamic(
   () => import('~/components/LaunchWeek/8/LaunchWeekPrizeSection')
 )
-// const TicketBrickWall = dynamic(
-//   () => import('~/components/LaunchWeek/LaunchSection/TicketBrickWall')
-// )
+const TicketBrickWall = dynamic(() => import('~/components/LaunchWeek/8/TicketBrickWall'))
 const CTABanner = dynamic(() => import('~/components/CTABanner'))
 
 interface Props {
@@ -159,7 +156,7 @@ export default function TicketHome({ users }: Props) {
             <SectionContainer className="!pt-8 !px-4 w-full">
               <LaunchWeekPrizeSection className="" />
             </SectionContainer>
-            {/* {users && <TicketBrickWall users={users} />} */}
+            {users && <TicketBrickWall users={users.slice(0, 17)} />}
           </div>
           <CTABanner className="!bg-[#020405] border-t-0" />
         </DefaultLayout>
@@ -172,7 +169,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   // fetch users for the TicketBrickWall
   const { data: users } = await supabaseAdmin!
     .from('lw8_tickets_golden')
-    .select('id', { count: 'exact' })
+    .select('id, golden', { count: 'exact' })
 
   return {
     props: {

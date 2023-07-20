@@ -3,7 +3,8 @@ import { range } from 'lodash'
 
 let defaultConfig = {
   particles: 20,
-  particlesSize: 1.3,
+  particlesSize: 1.2,
+  goldParticlesSize: 1.5,
   particlesSides: 5,
   particlesBlending: true,
   lightIntensity: 0.3,
@@ -18,16 +19,13 @@ let defaultConfig = {
   color: 'white',
   colorGold: '#b89d18',
   xThickness: 7,
-  // xRandomnessFactor: 1.6,
-  // xRandomnessShape: 1.6,
-  // xRandomness: 5.7,
-  xRandomnessFactor: 2.3,
-  xRandomnessShape: 2.3,
+  xRandomnessFactor: 2.2,
+  xRandomnessShape: 2.2,
   xRandomness: 5,
   yThickness: 20,
   max_speed: 0.1,
   min_speed: -0.1,
-  showGlowMaterial: false,
+  showGold: true,
   backgroundParticles: 30,
 }
 
@@ -71,6 +69,13 @@ const useParticlesConfig = (users: any): any => {
       .name('Size')
       .onChange((value) => handleSetConfig('particlesSize', value))
     particlesFolder
+      .add(config, 'goldParticlesSize')
+      .min(1)
+      .max(10)
+      .step(0.05)
+      .name('Gold Particles Size')
+      .onChange((value) => handleSetConfig('goldParticlesSize', value))
+    particlesFolder
       .add(config, 'particlesSides')
       .min(3)
       .max(20)
@@ -92,9 +97,9 @@ const useParticlesConfig = (users: any): any => {
       .name('Background Particles')
       .onChange((value) => handleSetConfig('backgroundParticles', value))
     particlesFolder
-      .add(config, 'showGlowMaterial')
-      .name('Glow')
-      .onChange((value) => handleSetConfig('showGlowMaterial', value))
+      .add(config, 'showGold')
+      .name('Show Gold Particles')
+      .onChange((value) => handleSetConfig('showGold', value))
     particlesFolder
       .add(config, 'particlesBlending')
       .name('Blending')

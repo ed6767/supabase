@@ -21,7 +21,7 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
   > | null>(null)
 
   const loadUsers = async () => {
-    return await supabase!.from('lw8_tickets_golden').select('id', { count: 'exact' })
+    return await supabase!.from('lw8_tickets_golden').select('id, golden', { count: 'exact' })
   }
 
   // Update particles live when new tickets are generated
@@ -78,6 +78,10 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
     () => () => <circleGeometry args={[config.particlesSize, config.particlesSides]} />,
     []
   )
+  const GoldGeometry = useMemo(
+    () => () => <circleGeometry args={[config.goldParticlesSize, config.particlesSides]} />,
+    []
+  )
   const Material = () =>
     useMemo(
       () => (
@@ -88,7 +92,7 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
       ),
       []
     )
-  const GlowMaterial = () =>
+  const GoldMaterial = () =>
     useMemo(
       () => (
         <meshPhysicalMaterial
@@ -109,33 +113,14 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
     >
       <ambientLight intensity={config.lightIntensity} />
       <group position={[0, 70, 0]} scale={[0.9, 0.9, 0.9]}>
-        {particles?.map((user: any, index: number) => (
-          <Particle
-            key={`particle-${user.username ?? index}`}
-            user={user}
-            config={config}
-            animate={animate}
-          >
-            <Geometry />
-            {isDebugMode ? (
-              config.showGlowMaterial ? (
-                <GlowMaterial />
-              ) : (
-                <Material />
-              )
-            ) : !user.golden ? (
-              <GlowMaterial />
-            ) : (
-              <Material />
-            )}
-          </Particle>
-        ))}
+        {/* Background particles */}
         {range(0, config.backgroundParticles).map((_: any, index) => (
           <BackgroundParticle key={`bg-particle-${index}`} config={config} canvasRef={canvasRef}>
             <Geometry />
             <Material />
           </BackgroundParticle>
         ))}
+        {/* Animated 8 shape particles */}
         {particles?.map((user: any, index: number) => (
           <Particle
             key={`particle-${user.username ?? index}`}
@@ -143,17 +128,16 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
             config={config}
             animate={animate}
           >
-            <Geometry />
-            {isDebugMode ? (
-              config.showGlowMaterial ? (
-                <GlowMaterial />
-              ) : (
-                <Material />
-              )
-            ) : user.golden ? (
-              <GlowMaterial />
+            {(!!user.id && user.golden) || (config.showGold && Math.random() <= 0.5) ? (
+              <>
+                <GoldGeometry />
+                <GoldMaterial />
+              </>
             ) : (
-              <Material />
+              <>
+                <Geometry />
+                <Material />
+              </>
             )}
           </Particle>
         ))}
