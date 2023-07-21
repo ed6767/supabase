@@ -59,13 +59,13 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
     <>
       <div
         className={[
-          `relative w-full max-w-xs md:max-w-[700px] lg:max-w-[1100px] min-h-[400px] flex flex-col items-center lg:grid lg:grid-cols-12 gap-4 lg:p-4 rounded-3xl backdrop-blur lg:items-stretch h-auto`,
+          `relative w-full max-w-sm md:max-w-[700px] lg:max-w-[1100px] min-h-[400px] flex flex-col items-center lg:grid lg:grid-cols-12 gap-4 lg:p-4 rounded-3xl backdrop-blur lg:items-stretch h-auto`,
           !isMobile && styles['ticket-hero'],
         ].join(' ')}
       >
         <div
           className={[
-            'flex flex-col !w-full h-full justify-center max-w-lg lg:max-w-none col-span-full p-4 lg:px-6 lg:col-span-4 rounded-3xl backdrop-blur lg:backdrop-blur-none',
+            'flex flex-col !w-full h-full justify-center max-w-lg lg:max-w-none col-span-full p-6 lg:col-span-4 rounded-3xl backdrop-blur lg:backdrop-blur-none',
             isMobile && styles['ticket-hero'],
           ].join(' ')}
         >

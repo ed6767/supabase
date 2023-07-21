@@ -37,7 +37,6 @@ export function TicketBrickWallSlider({ users, reverse, speed = 50000, animate }
           watchOverflow
           threshold={2}
           updateOnWindowResize
-          // allowTouchMove={false}
           breakpoints={{
             320: {
               slidesPerView: reverse ? 4.5 : 2.5,
