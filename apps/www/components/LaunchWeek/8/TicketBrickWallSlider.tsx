@@ -1,14 +1,10 @@
-// import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
-// import { useWindowSize } from 'react-use'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
-// import SwiperCore, { Autoplay } from 'swiper'
-import 'swiper/swiper.min.css'
 
-// SwiperCore.use([Autoplay])
+import 'swiper/swiper.min.css'
 
 interface Props {
   users: UserData[]
@@ -18,28 +14,12 @@ interface Props {
 }
 
 export function TicketBrickWallSlider({ users, reverse, speed = 50000, animate }: Props) {
-  // const [swiperInstance, setSwiperInstance] = useState<SwiperCore | any | null>(null)
-  // const { width } = useWindowSize()
   const STORAGE_URL = 'https://obuldanrptloktxcffvn.supabase.co/storage/v1/object/public/images/lw8'
   const BUCKET_FOLDER_VERSION = 'v1'
   const getOgUrl = (username: string, isGold: boolean) =>
     `${STORAGE_URL}/tickets/${
       isGold ? 'golden' : 'regular'
     }/${BUCKET_FOLDER_VERSION}/${username}.png`
-
-  // useEffect(() => {
-  //   // trigger autoplay if viewport resize
-  //   if (swiperInstance) swiperInstance?.autoplay?.run()
-  // }, [width])
-
-  // useEffect(() => {
-  //   // autoplay only if in view
-  //   if (!animate) {
-  //     swiperInstance?.autoplay?.run()
-  //   } else {
-  //     swiperInstance?.autoplay?.stop()
-  //   }
-  // }, [animate])
 
   return (
     <div className="relative h-auto w-full m-0 overflow-hidden mb-2.5">
@@ -50,21 +30,14 @@ export function TicketBrickWallSlider({ users, reverse, speed = 50000, animate }
         ].join(' ')}
       >
         <Swiper
-          // onSwiper={(swiper) => setSwiperInstance(swiper)}
           centeredSlides={true}
           spaceBetween={10}
           slidesPerView={5}
-          // speed={speed}
           loop={true}
           watchOverflow
           threshold={2}
           updateOnWindowResize
-          allowTouchMove={false}
-          // autoplay={{
-          //   delay: 0,
-          //   disableOnInteraction: true,
-          //   reverseDirection: reverse,
-          // }}
+          // allowTouchMove={false}
           breakpoints={{
             320: {
               slidesPerView: reverse ? 4.5 : 2.5,
