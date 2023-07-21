@@ -130,6 +130,12 @@ export default function TicketHome({ users }: Props) {
                   </div>
                   <div className="absolute inset-0 z-0">
                     {supabase && <AnimatedParticles supabase={supabase} users={users} />}
+                    <Image
+                      src="/images/launchweek/8/stars.svg"
+                      alt="starts background"
+                      layout="fill"
+                      objectFit="cover"
+                    />
                   </div>
                 </SectionContainer>
                 <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">
@@ -144,7 +150,7 @@ export default function TicketHome({ users }: Props) {
               </div>
             </div>
 
-            <div className="relative !w-full max-w-[100vw] !px-4 sm:max-w-xl md:max-w-4xl lg:max-w-7xl z-20 flex flex-col justify-around items-center !py-4 md:!py-8 gap-2 md:gap-4 !mx-auto">
+            <div className="relative !w-full max-w-[100vw] min-h-[400px] !px-4 sm:max-w-xl md:max-w-4xl lg:max-w-7xl z-20 flex flex-col justify-around items-center !py-4 md:!py-8 gap-2 md:gap-4 !mx-auto">
               {supabase && (
                 <div className="w-full max-w-[100vw] px-4 flex justify-center py-8 md:py-20">
                   <TicketContainer

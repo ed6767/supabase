@@ -99,6 +99,12 @@ const Hero = () => {
         </div>
         <div className="absolute -top-2 md:top-4 -left-10 -right-10 md:left-0 md:right-0 h-[500px] lg:h-[600px] z-0">
           <ParticlesCanvas users={range(0, 60)} />
+          <Image
+            src="/images/launchweek/8/stars.svg"
+            alt="starts background"
+            layout="fill"
+            objectFit="cover"
+          />
         </div>
       </SectionContainer>
       <div className="absolute w-full aspect-[1/1] md:aspect-[1.5/1] lg:aspect-[2.5/1] inset-0 z-0">

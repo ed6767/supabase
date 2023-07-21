@@ -4,7 +4,7 @@ import CountdownComponent from './Countdown'
 export function LaunchWeekLogoHeader() {
   return (
     <div className="flex flex-col gap-1 md:gap-2 items-center justify-end">
-      <div className="opacity-0 !animate-[fadeIn_0.5s_cubic-bezier(0.25,0.25,0,1)_0.5s_both] flex flex-col items-center text-center gap-3">
+      <div className="opacity-0 !animate-[fadeIn_0.5s_cubic-bezier(0.25,0.25,0,1)_0.5s_both] px-2 flex flex-col items-center text-center gap-3">
         <div className="">
           <CountdownComponent />
         </div>
@@ -16,11 +16,14 @@ export function LaunchWeekLogoHeader() {
         <div className="text-[#9296AA]">
           Join us in a week of announcing new features. <br className="hidden md:block" />
           Connect with GitHub to generate your unique ticket and contribute to the constellation.
-          You might also win{' '}
-          <Link href="#lw8-prizes">
-            <a className="hover:!underline !text-brand-900">awesome swag</a>
-          </Link>
-          .
+          <span className="inline sm:block">
+            {' '}
+            You might also win{' '}
+            <Link href="#lw8-prizes">
+              <a className="hover:!underline !text-brand-900">swag</a>
+            </Link>
+            .
+          </span>
         </div>
       </div>
     </div>

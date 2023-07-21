@@ -23,35 +23,6 @@ export default function TicketCopy({ username, isGolden }: Props) {
     }
   }, [])
 
-  // const copyButton = (
-  //   <button
-  //     type="button"
-  //     name="Copy"
-  //     className="bg-[#E6E8EB] text-[#2e2e2e] text-xs flex items-center cursor-pointer py-1 px-2 rounded"
-  //     ref={buttonRef}
-  //     onClick={() => {
-  //       navigator.clipboard.writeText(url).then(() => {
-  //         setCopied(true)
-  //         setTimeout(() => {
-  //           setCopied(false)
-  //         }, 2000)
-  //       })
-  //     }}
-  //   >
-  //     <div className="flex items-center gap-1">
-  //       {copied ? (
-  //         <>
-  //           <IconCheck size={14} strokeWidth={1.5} /> Copied!
-  //         </>
-  //       ) : (
-  //         <>
-  //           <IconCopy size={14} strokeWidth={1.5} /> Copy
-  //         </>
-  //       )}
-  //     </div>
-  //   </button>
-  // )
-
   return (
     <div
       className={cn(styleUtils.appear, styleUtils['appear-second'], 'h-8 w-full overflow-hidden')}
@@ -72,7 +43,7 @@ export default function TicketCopy({ username, isGolden }: Props) {
       >
         <div className="flex items-center truncate">
           <p
-            className={['text-xs font-mono truncate'].join(' ')}
+            className={['text-xs truncate'].join(' ')}
             ref={scrollRef}
             onScroll={() => {
               if (!scrolling) {
