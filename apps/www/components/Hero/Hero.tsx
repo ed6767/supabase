@@ -105,6 +105,7 @@ const Hero = () => {
             layout="fill"
             objectFit="cover"
             className="opacity-50"
+            draggable={false}
           />
         </div>
       </SectionContainer>
@@ -115,6 +116,7 @@ const Hero = () => {
           objectFit={isMobile ? 'cover' : 'contain'}
           objectPosition="top"
           priority
+          draggable={false}
         />
       </div>
       <div className="absolute top-0 left-0 right-0 h-screen bg-gradient-to-b from-[#020405] to-transparent -z-10" />

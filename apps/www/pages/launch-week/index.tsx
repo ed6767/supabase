@@ -144,6 +144,7 @@ export default function TicketHome({ users }: Props) {
                       layout="fill"
                       objectFit="cover"
                       className="opacity-50"
+                      draggable={false}
                     />
                   </div>
                 </SectionContainer>
@@ -154,6 +155,7 @@ export default function TicketHome({ users }: Props) {
                     objectFit="cover"
                     objectPosition="top"
                     priority
+                    draggable={false}
                   />
                 </div>
               </div>

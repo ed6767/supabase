@@ -101,7 +101,7 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
           <div className="-mt-[65px]">
             <div className="relative">
               <div className="relative z-10">
-                <SectionContainer className="flex flex-col justify-around items-center gap-2 md:gap-4 !px-2 !mx-auto md:min-h-[auto]">
+                <SectionContainer className="relative z-10 flex flex-col justify-around items-center gap-2 md:gap-4 !px-2 !mx-auto md:min-h-[auto]">
                   <div className="pt-12 lg:pt-24">
                     {supabase && (
                       <TicketContainer
@@ -120,6 +120,7 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
                     objectFit="cover"
                     objectPosition="top"
                     priority
+                    draggable={false}
                   />
                 </div>
               </div>
