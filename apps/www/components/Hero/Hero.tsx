@@ -37,7 +37,7 @@ const Hero = () => {
             <div className="mx-auto max-w-2xl lg:col-span-6 lg:flex lg:items-center justify-center text-center">
               <div
                 className={[
-                  'relative z-10 appear-first lg:h-auto pt-[250px] lg:pt-[300px] lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
+                  'relative z-10 appear-first lg:h-auto pt-[250px] lg:pt-[250px] lg:min-h-[300px] flex flex-col items-center justify-center sm:mx-auto md:w-3/4 lg:mx-0 lg:w-full gap-4 lg:gap-8',
                   styles['hero-text'],
                 ].join(' ')}
               >
@@ -97,13 +97,14 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        <div className="absolute -top-2 md:top-4 -left-10 -right-10 md:left-0 md:right-0 h-[500px] lg:h-[600px] z-0">
+        <div className="absolute -top-2 md:top-0 -left-10 -right-10 md:left-0 md:right-0 h-[500px] lg:h-[550px] z-0">
           <ParticlesCanvas users={range(0, 60)} />
           <Image
             src="/images/launchweek/8/stars.svg"
             alt="starts background"
             layout="fill"
             objectFit="cover"
+            className="opacity-50"
           />
         </div>
       </SectionContainer>

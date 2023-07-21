@@ -135,6 +135,7 @@ export default function TicketHome({ users }: Props) {
                       alt="starts background"
                       layout="fill"
                       objectFit="cover"
+                      className="opacity-50"
                     />
                   </div>
                 </SectionContainer>

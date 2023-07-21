@@ -3,10 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { AdditiveBlending } from 'three'
 import Particle from './Particle'
 import useParticlesConfig from './hooks/useParticlesConfig'
-import { range } from 'lodash'
-import BackgroundParticle from './BackgroundParticle'
 import { SupabaseClient } from '@supabase/supabase-js'
-import Image from 'next/image'
 
 const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users: any }) => {
   const isWindowUndefined = typeof window === 'undefined'
@@ -114,13 +111,6 @@ const ParticlesCanvas = ({ supabase, users }: { supabase?: SupabaseClient; users
     >
       <ambientLight intensity={config.lightIntensity} />
       <group position={[0, 70, 0]} scale={[0.9, 0.9, 0.9]}>
-        {/* Background particles */}
-        {/* {range(0, config.backgroundParticles).map((_: any, index) => (
-          <BackgroundParticle key={`bg-particle-${index}`} config={config} canvasRef={canvasRef}>
-            <Geometry />
-            <Material />
-          </BackgroundParticle>
-        ))} */}
         {/* Animated 8 shape particles */}
         {particles?.map((user: any, index: number) => (
           <Particle

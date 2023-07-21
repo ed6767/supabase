@@ -13,17 +13,31 @@ export default function LaunchWeekPrizeSection({
   const Ticket = ticket
 
   return (
-    <div id="lw8-prizes" className={['scroll-mt-[75px] md:scroll-mt-[135px]', className].join(' ')}>
+    <div
+      id="lw8-prizes"
+      className={['relative scroll-mt-[75px] md:scroll-mt-[135px]', className].join(' ')}
+    >
+      <div className="absolute z-0 w-full aspect-[1.75/1] top-0 items-center justify-center">
+        <Image
+          src="/images/launchweek/8/swag-bg.png"
+          alt="prizes background"
+          layout="fill"
+          objectFit="cover"
+          objectPosition="top"
+          quality={100}
+        />
+      </div>
       <div className="!max-w-[100vw]">
+        <div className="w-full container mx-auto h-px bg-gradient-to-r from-transparent via-scale-600 to-transparent" />
         <div className="text-center relative z-10 text-white">
           <div className="max-w-[38rem] mx-auto flex flex-col items-center gap-4 px-4">
-            <div className="w-[40px] h-[40px] rounded-sm flex items-center justify-center">
+            <div className="relative z-10 w-full h-[100px] md:h-[130px] rounded-sm flex mt-16 items-center justify-center">
               <Image
-                src="/images/launchweek/8/prize-icon.svg"
+                src="/images/launchweek/8/swag-illustration.png"
                 alt="prizes"
-                layout="fixed"
-                width="60"
-                height="60"
+                layout="fill"
+                objectFit="contain"
+                quality={100}
               />
             </div>
             <h2 className="text-4xl">Get your winning ticket</h2>
@@ -36,12 +50,14 @@ export default function LaunchWeekPrizeSection({
         </div>
         {ticket && <Ticket />}
         <div className="pt-8 lg:pt-16 px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 max-w-7xl mx-auto h-auto text-white">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto h-auto text-white">
             <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/8/swag/deskmat.jpg"
-              imageWrapperClassName="w-full aspect-[1.9/1]"
+              className="col-span-full"
+              imageUrl="/images/launchweek/8/swag/deskmat-lg.jpg"
+              imageWrapperClassName="w-full aspect-[1.9/1] md:h-[300px]"
+              imgObjectPosition="center"
               content={
-                <h3 className="text-sm flex items-center gap-4">
+                <h3 className="w-full text-sm md:text-center flex md:justify-center items-center gap-4">
                   Supabase Desk Mat <LabelBadge text="10 pieces" />
                 </h3>
               }

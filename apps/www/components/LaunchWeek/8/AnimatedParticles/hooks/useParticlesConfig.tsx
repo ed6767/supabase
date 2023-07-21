@@ -26,7 +26,6 @@ let defaultConfig = {
   max_speed: 0.1,
   min_speed: -0.1,
   showGold: true,
-  backgroundParticles: 30,
 }
 
 const useParticlesConfig = (users: any): any => {
@@ -89,13 +88,6 @@ const useParticlesConfig = (users: any): any => {
       .step(0.05)
       .name('Light intensity')
       .onChange((value) => handleSetConfig('lightIntensity', value))
-    particlesFolder
-      .add(config, 'backgroundParticles')
-      .min(0)
-      .max(100)
-      .step(1)
-      .name('Background Particles')
-      .onChange((value) => handleSetConfig('backgroundParticles', value))
     particlesFolder
       .add(config, 'showGold')
       .name('Show Gold Particles')

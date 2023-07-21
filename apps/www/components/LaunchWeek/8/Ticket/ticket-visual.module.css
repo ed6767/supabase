@@ -34,9 +34,9 @@
   content: ' ';
   position: absolute;
   inset: 0;
-  filter: drop-shadow(0 0 60px #fcdf9d30);
-  background: radial-gradient(#fcdf9d50, #dbb333);
-  border: 1px solid #dbb333;
+  filter: drop-shadow(0 0 60px #fcdf9d);
+  background: radial-gradient(#fcdf9d50, #dbb33320);
+  /* border: 1px solid #dbb33320; */
 }
 
 @keyframes opacity-pulse {
