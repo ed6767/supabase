@@ -101,7 +101,7 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
           <div className="-mt-[65px]">
             <div className="relative">
               <div className="relative z-10">
-                <SectionContainer className="relative z-10 flex flex-col justify-around items-center gap-2 md:gap-4 !px-2 !mx-auto md:min-h-[auto]">
+                <SectionContainer className="relative z-10 flex flex-col justify-around items-center gap-2 lg:!pb-0 md:gap-4 !px-2 !mx-auto md:min-h-[auto]">
                   <div className="pt-12 lg:pt-24">
                     {supabase && (
                       <TicketContainer
@@ -125,7 +125,7 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
                 </div>
               </div>
             </div>
-            <SectionContainer className="!pt-8">
+            <SectionContainer className="">
               <LaunchWeekPrizeSection />
             </SectionContainer>
             {users && <TicketBrickWall users={users.slice(0, 17)} />}
@@ -140,7 +140,6 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const username = params?.username?.toString() || null
   let user
-  // let ogImageUrl
 
   // fetch users for the TicketBrickWall
   const { data: users } = await supabaseAdmin!.from('lw8_tickets_golden').select().limit(17)

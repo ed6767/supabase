@@ -13,7 +13,7 @@ export default function LaunchWeekPrizeSection({
   const Ticket = ticket
 
   return (
-    <div id="lw8-prizes" className={['relative scroll-mt-[75px]', className].join(' ')}>
+    <div id="lw8-prizes" className={['relative scroll-mt-[66px]', className].join(' ')}>
       <div className="absolute z-0 w-full aspect-[1.75/1] top-0 items-center justify-center">
         <Image
           src="/images/launchweek/8/swag-bg.png"
