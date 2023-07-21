@@ -124,7 +124,7 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
                   <p>
                     Customize your ticket and boost your chances of winning{' '}
                     <Link href="#lw8-prizes">
-                      <a className="hover:!underline !text-brand-900">limited edition awards</a>
+                      <a className="underline hover:text-scale-1200">limited edition awards</a>
                     </Link>{' '}
                     by sharing it with the community.
                   </p>
@@ -134,7 +134,7 @@ export default function TicketContainer({ user, sharePage, referrals, supabase }
                   <p>
                     Generate and share your own custom ticket for a chance to win{' '}
                     <Link href="#lw8-prizes">
-                      <a className="hover:!underline !text-brand-900">awesome swag</a>
+                      <a className="underline hover:text-scale-1200">awesome swag</a>
                     </Link>
                     .
                   </p>
