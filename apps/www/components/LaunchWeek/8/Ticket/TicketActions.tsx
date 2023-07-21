@@ -4,7 +4,6 @@ import { IconCheckCircle } from 'ui'
 import useConfData from '~/components/LaunchWeek/hooks/use-conf-data'
 import { useParams } from '~/hooks/useParams'
 import TicketForm from './TicketForm'
-import { TwitterShareButton, TwitterIcon, LinkedinShareButton } from 'next-share'
 
 type TicketGenerationState = 'default' | 'loading'
 
