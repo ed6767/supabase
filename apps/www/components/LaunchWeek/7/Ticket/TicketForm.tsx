@@ -157,12 +157,12 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
               {session ? (
                 <>
                   <IconCheckCircle />
-                  Connect with Github
+                  Connect with GitHub
                 </>
               ) : (
                 <span className="flex items-center gap-2">
                   {formState === 'loading' && <IconLoader size={14} className="animate-spin" />}
-                  Connect with Github
+                  Connect with GitHub
                 </span>
               )}
             </span>

@@ -62,7 +62,7 @@ export default function TicketActions({
               <div className="text-scale-900">
                 <IconCheckCircle size={10} strokeWidth={1} />
               </div>
-              Connect with Github
+              Connect with GitHub
             </div>
           </div>
           <div
