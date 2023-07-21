@@ -20,7 +20,7 @@ export function LaunchWeekLogoHeader() {
             {' '}
             You might also win{' '}
             <Link href="#lw8-prizes">
-              <a className="hover:!underline !text-brand-900">swag</a>
+              <a className="underline transition-opacity hover:text-scale-1200">swag</a>
             </Link>
             .
           </span>
