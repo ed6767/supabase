@@ -15,6 +15,7 @@ import { LaunchWeekLogoHeader } from '~/components/LaunchWeek/8/LaunchWeekLogoHe
 import { useTheme } from 'common/Providers'
 
 import 'swiper/swiper.min.css'
+import Head from 'next/head'
 
 const AnimatedParticles = dynamic(
   () => import('~/components/LaunchWeek/8/AnimatedParticles/ParticlesCanvas')
@@ -112,6 +113,12 @@ export default function TicketHome({ users }: Props) {
           ],
         }}
       />
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Head>
       <ConfDataContext.Provider
         value={{
           supabase,
