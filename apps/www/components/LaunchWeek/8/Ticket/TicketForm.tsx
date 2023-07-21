@@ -146,7 +146,7 @@ export default function TicketForm({ defaultUsername = '', setTicketGenerationSt
             htmlType="submit"
             disabled={formState === 'loading' || Boolean(session)}
           >
-            <span className={`${username && 'text-scale-900'}`}>
+            <span className={`flex items-center gap-2 ${username && 'text-scale-900'}`}>
               {session ? (
                 <>
                   <IconCheckCircle />

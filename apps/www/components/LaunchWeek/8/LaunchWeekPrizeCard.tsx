@@ -54,12 +54,12 @@ export default function LaunchWeekPrizeCard({
             imageWrapperClassName && imageWrapperClassName,
           ].join(' ')}
         >
-          {/* <Image
+          <Image
             src={imageUrl}
             layout="fill"
             objectFit="cover"
             objectPosition={imgObjectPosition}
-          /> */}
+          />
         </div>
         <div className="p-4 flex flex-col gap-2 items-start">{content && content}</div>
       </div>

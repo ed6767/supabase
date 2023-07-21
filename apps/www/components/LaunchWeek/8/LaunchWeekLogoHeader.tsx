@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import CountdownComponent from './Countdown'
 
 export function LaunchWeekLogoHeader() {
@@ -14,8 +15,12 @@ export function LaunchWeekLogoHeader() {
         </p>
         <div className="text-[#9296AA]">
           Join us in a week of announcing new features. <br className="hidden md:block" />
-          {/* Generate and share your unique ticket to win swag and help us complete the 8. */}
           Connect with GitHub to generate your unique ticket and contribute to the constellation.
+          You might also win{' '}
+          <Link href="#lw8-prizes">
+            <a className="hover:!underline !text-brand-900">awesome swag</a>
+          </Link>
+          .
         </div>
       </div>
     </div>

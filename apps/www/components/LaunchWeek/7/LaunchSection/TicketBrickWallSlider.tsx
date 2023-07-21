@@ -34,7 +34,7 @@ export function TicketBrickWallSlider({ users, reverse, speed = 10000 }: Props) 
 
   return (
     <div ref={ref} className="relative h-auto w-full m-0 overflow-hidden mb-2.5">
-      <div className="flex swiper-transition-linear">
+      <div className="flex swiper-transition-linear ticket-brick-swiper">
         <Swiper
           onSwiper={(swiper) => setSwiperInstance(swiper)}
           centeredSlides={true}
@@ -65,7 +65,7 @@ export function TicketBrickWallSlider({ users, reverse, speed = 10000 }: Props) 
         >
           {users.map((user, i) => (
             <SwiperSlide key={user.username}>
-              <Link href={`/launch-week/tickets/${user.username}`} key={user.username}>
+              <Link href={`/launch-week/7/tickets/${user.username}`} key={user.username}>
                 <a className="relative !w-[230px] md:w-[450px] !h-[200px] rounded-md md:rounded-lg transition-transform">
                   <div className="relative w-full pt-[50%] transform rounded-md md:rounded-lg overflow-hidden bg-gradient-to-b from-[#ffffff60] to-[#ffffff10]">
                     <div className="absolute inset-[1px] w-full h-full rounded-md md:rounded-lg overflow-hidden p-[1px]">

@@ -3,16 +3,21 @@ import { NextSeo } from 'next-seo'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import Image from 'next/image'
 import Error from 'next/error'
+import dynamic from 'next/dynamic'
+import { Session, SupabaseClient, createClient } from '@supabase/supabase-js'
+import { useTheme } from 'common/Providers'
+
 import DefaultLayout from '~/components/Layouts/Default'
 import SectionContainer from '~/components/Layouts/SectionContainer'
 import TicketContainer from '~/components/LaunchWeek/8/Ticket/TicketContainer'
 import { SITE_URL } from '~/lib/constants'
-import { Session, SupabaseClient, createClient } from '@supabase/supabase-js'
-import LaunchWeekPrizeSection from '~/components/LaunchWeek/8/LaunchWeekPrizeSection'
-// import TicketBrickWall from '~/components/LaunchWeek/8/Ticket/TicketBrickWall'
 import { PageState, ConfDataContext, UserData } from '~/components/LaunchWeek/hooks/use-conf-data'
-import CTABanner from '~/components/CTABanner'
-import { useTheme } from 'common/Providers'
+
+const LaunchWeekPrizeSection = dynamic(
+  () => import('~/components/LaunchWeek/8/LaunchWeekPrizeSection')
+)
+const TicketBrickWall = dynamic(() => import('~/components/LaunchWeek/8/TicketBrickWall'))
+const CTABanner = dynamic(() => import('~/components/CTABanner'))
 
 interface Props {
   user: UserData
@@ -24,14 +29,15 @@ const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'http://localhost:54321',
   process.env.SUPABASE_SERVICE_ROLE_SECRET ??
     process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_SECRET ??
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9idWxkYW5ycHRsb2t0eGNmZnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njk3MjcwMTIsImV4cCI6MTk4NTMwMzAxMn0.SZLqryz_-stF8dgzeVXmzZWPOqdOrBwqJROlFES8v3I'
+    ''
 )
 
 export default function UsernamePage({ user, users, ogImageUrl }: Props) {
-  const { username, ticketNumber, name, golden } = user
+  const { username, ticketNumber, name } = user
 
   const TITLE = `${name ? name + '’s' : 'Get your'} #SupaLaunchWeek Ticket`
-  const DESCRIPTION = 'Supabase Launch Week 8 | 7–11 August 2023 | Generate your ticket. Win swag.'
+  const DESCRIPTION =
+    'Supabase Launch Week 8 | 7–11 August 2023 | Generate your ticket & win awesome swag.'
   const OG_URL = `${SITE_URL}/tickets/${username}`
 
   const [supabase, setSupabase] = useState<SupabaseClient | null>(null)
@@ -120,7 +126,7 @@ export default function UsernamePage({ user, users, ogImageUrl }: Props) {
             <SectionContainer className="!pt-8">
               <LaunchWeekPrizeSection />
             </SectionContainer>
-            {/* <TicketBrickWall users={users} /> */}
+            {users && <TicketBrickWall users={users.slice(0, 17)} />}
           </div>
           <CTABanner className="!bg-[#020405] border-t-0" />
         </DefaultLayout>
@@ -143,8 +149,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     )}`
   ).catch((_) => {})
 
-  console.log(username)
-
   // fetch a specific user
   if (username) {
     const { data } = await supabaseAdmin!
@@ -152,8 +156,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       .select('name, username, ticketNumber, metadata, golden')
       .eq('username', username)
       .single()
-
-    console.log(user)
 
     user = data
   }

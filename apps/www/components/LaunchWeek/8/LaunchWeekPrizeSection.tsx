@@ -13,7 +13,7 @@ export default function LaunchWeekPrizeSection({
   const Ticket = ticket
 
   return (
-    <div id="lw8-prizes" className={['scroll-mt-[75px]', className].join(' ')}>
+    <div id="lw8-prizes" className={['scroll-mt-[75px] md:scroll-mt-[135px]', className].join(' ')}>
       <div className="!max-w-[100vw]">
         <div className="text-center relative z-10 text-white">
           <div className="max-w-[38rem] mx-auto flex flex-col items-center gap-4 px-4">
@@ -36,60 +36,46 @@ export default function LaunchWeekPrizeSection({
         </div>
         {ticket && <Ticket />}
         <div className="pt-8 lg:pt-16 px-4">
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 max-w-7xl mx-auto h-auto text-white">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 max-w-7xl mx-auto h-auto text-white">
             <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/seven/deskmat.jpg"
+              imageUrl="/images/launchweek/8/swag/deskmat.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"
               content={
-                <>
-                  <LabelBadge text="10 pieces" className="block sm:hidden" />
-                  <h3 className="text-sm flex items-center gap-4">
-                    Supabase Desk Mat <LabelBadge text="10 pieces" className="hidden sm:block" />
-                  </h3>
-                </>
+                <h3 className="text-sm flex items-center gap-4">
+                  Supabase Desk Mat <LabelBadge text="10 pieces" />
+                </h3>
               }
               animateFrom="down"
             />
             <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/seven/tshirt.jpg"
+              imageUrl="/images/launchweek/8/swag/shirt.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"
               imgObjectPosition="right"
               content={
-                <>
-                  <LabelBadge text="25 pieces" className="block sm:hidden" />
-                  <h3 className="text-sm flex items-center gap-4">
-                    Supabase T-Shirt <LabelBadge text="25 pieces" className="hidden sm:block" />
-                  </h3>
-                </>
+                <h3 className="text-sm flex items-center gap-4">
+                  Supabase T-Shirt <LabelBadge text="20 pieces" />
+                </h3>
               }
               animateFrom="down"
             />
-
             <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/seven/cap.jpg"
+              imageUrl="/images/launchweek/8/swag/cap.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"
               animateFrom="down"
               content={
-                <>
-                  <LabelBadge text="20 caps" className="block sm:hidden" />
-                  <h3 className="text-sm flex items-center gap-4">
-                    Supabase Cap <LabelBadge text="20 caps" className="hidden sm:block" />
-                  </h3>
-                </>
+                <h3 className="text-sm flex items-center gap-4">
+                  Supabase Cap <LabelBadge text="25 caps" />
+                </h3>
               }
             />
             <LaunchWeekPrizeCard
-              imageUrl="/images/launchweek/seven/stickers.jpg"
+              imageUrl="/images/launchweek/8/swag/stickers.jpg"
               imageWrapperClassName="w-full aspect-[1.9/1]"
               animateFrom="down"
               content={
-                <>
-                  <LabelBadge text="100 packs" className="block sm:hidden" />
-                  <h3 className="text-sm flex items-center gap-4">
-                    Supabase Sticker Pack{' '}
-                    <LabelBadge text="100 packs" className="hidden sm:block" />
-                  </h3>
-                </>
+                <h3 className="text-sm flex items-center gap-4">
+                  Supabase Sticker Pack <LabelBadge text="100 packs" />
+                </h3>
               }
             />
           </div>
